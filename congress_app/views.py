@@ -10,9 +10,9 @@ def index(request):
 
 def results(request):#, zip_code):
     #district = congress.districts.getDistrictsFromZip('01741')
-    #state = district['state']
+    #senators = congress.legislators.getList(state=district.state, district = district.number)
     
-    foo = {'town': 'Greenland, NH', 'phone_number': '603-479-0310'}
+    foo = {'town': 'Greenland', 'phone_number': '603-479-0310', 'twitter_id': 'twitter'}
     return render_to_response('congress_app/results.html', {'results': foo})
 
 
