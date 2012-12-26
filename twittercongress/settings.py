@@ -127,6 +127,8 @@ INSTALLED_APPS = (
     'congress_app',
 )
 
+SUNLIGHT_API_KEY = '6beac436fa02439abfe8f27909ab3d8f'
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
