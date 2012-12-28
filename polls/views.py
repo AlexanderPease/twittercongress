@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 
 def index(request):
+    foo = 'test'
     latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
     return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list})
 
