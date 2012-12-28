@@ -1,1 +1,7 @@
 This is the congress_app index page
+</br>
+<form action="/congress_app/results/" method="post">
+{% csrf_token %}
+Please enter your zipcode: <input type="text" name="zip_code">
+<input type="submit" value="Submit!" />
+</form>
