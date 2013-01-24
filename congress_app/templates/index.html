@@ -10,13 +10,15 @@
       body {
         padding-top: 20px;
         padding-bottom: 20px;
-        background-image: ;
+        background-image: url('{{ STATIC_URL }}house_body_1414px.jpg');
+        background-repeat: no-repeat;
+        background-position: center top;
       }
 
       /* Custom container */
       .container-narrow {
-        margin: 0 auto;
-        max-width: 800px;
+        margin: 0px auto;
+        max-width: 780px;
       }
       .container-narrow > hr {
         margin: 30px 0;
@@ -34,10 +36,22 @@
 
       /* Supporting marketing content */
       .marketing {
-        margin: 60px 0;
+        margin: 40px 0;
       }
       .marketing p + h4 {
         margin-top: 28px;
+      }
+
+      .marketing h4 {
+        text-align: center;
+      }
+      .marketing h3 {
+        text-align: center;
+      }
+
+      /* Footer images */
+      #footer_logo {
+        height: 40px;
       }
     </style>
 
@@ -51,7 +65,7 @@
           <li class="active"><a href="#">Home</a></li>
           <li><a href="#">Contact</a></li>
         </ul>
-        <h3 class="muted">Project name</h3>
+        <h3 class="muted">Tweet @ Congress</h3>
       </div>
 
       <hr>
@@ -78,33 +92,22 @@
 
       <div class="row-fluid marketing">
         <div class="span6">
-          <h4>Subheading</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-          <h4>Subheading</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-          <h4>Subheading</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+          <h4>Representative Democracy...</h4>
+          <p>Is best served by a continuous, unfiltered dialogue between citizens and their representatives.</p>
         </div>
 
         <div class="span6">
-          <h4>Subheading</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-          <h4>Subheading</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-          <h4>Subheading</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+          <h4>Social networks...</h4>
+          <p>Such as Twitter are perfectly made to faciliate this discussion on a daily basis.</p>
         </div>
+        
+        <h3>We're just making it dead simple.</h3>
       </div>
 
       <hr>
 
       <div class="footer">
-        <!--<p>&copy; Union Square Ventures 2012</p>-->
-        <p>Powered by the Sunlight Foundation</p>
+        <img id="footer_logo" src="{{ STATIC_URL }}sunlight_logo.gif" alt="Powered by the Sunlight Foundation">
       </div>
 
     </div> <!-- /container -->
