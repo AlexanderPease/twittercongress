@@ -1,0 +1,64 @@
+   body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-image: url('../img/house_body_1414px.jpg');
+        background-repeat: no-repeat;
+        background-position: center top;
+      }
+
+      /* Custom container */
+      .container-narrow {
+        margin: 0px auto;
+        max-width: 740px;
+      }
+      .container-narrow > hr {
+        margin: 30px 0;
+      }
+
+      /* Main marketing message */
+      .jumbotron {
+        margin: 50px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 40px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+
+      .marketing h4 {
+        text-align: center;
+      }
+      .marketing h3 {
+        text-align: center;
+      }
+
+      /* "Dead Simple" styling */
+      #dead_simple {
+        margin-top: 105px;
+      }
+
+      /* Footer images */
+      #footer_logo {
+        height: 40px;
+      }
+
+      /* List of representatives */
+      .img-polaroid {
+        height: 200px;
+      }
+
+      #list li {
+        height: 240px;
+      }
+
+      #img-center {
+        margin-right: 50px;
+      }

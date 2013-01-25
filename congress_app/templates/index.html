@@ -6,54 +6,8 @@
   <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
   <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
 
-  <style type="text/css">
-      body {
-        padding-top: 20px;
-        padding-bottom: 20px;
-        background-image: url('{{ STATIC_URL }}house_body_1414px.jpg');
-        background-repeat: no-repeat;
-        background-position: center top;
-      }
-
-      /* Custom container */
-      .container-narrow {
-        margin: 0px auto;
-        max-width: 780px;
-      }
-      .container-narrow > hr {
-        margin: 30px 0;
-      }
-
-      /* Main marketing message */
-      .jumbotron {
-        margin: 60px 0;
-        text-align: center;
-      }
-      .jumbotron h1 {
-        font-size: 72px;
-        line-height: 1;
-      }
-
-      /* Supporting marketing content */
-      .marketing {
-        margin: 40px 0;
-      }
-      .marketing p + h4 {
-        margin-top: 28px;
-      }
-
-      .marketing h4 {
-        text-align: center;
-      }
-      .marketing h3 {
-        text-align: center;
-      }
-
-      /* Footer images */
-      #footer_logo {
-        height: 40px;
-      }
-    </style>
+  <!-- Custom CSS for Twitter Congress -->
+  <link href="{{ STATIC_URL }}css/twittercongress.css" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -63,7 +17,7 @@
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="mailto:alexander@usv.com">Contact</a></li>
         </ul>
         <h3 class="muted">Tweet @ Congress</h3>
       </div>
@@ -76,8 +30,7 @@
 
         {% if not error_message %}
         <p class="lead">Just input your ZIP code to follow your Congressional Representatives on Twitter</p>
-        {% endif %}
-        {% if error_message %}
+        {% else %}
           <p class="lead text-error">Sorry, '{{ error_message }}' is not viable a ZIP code!</p>
         {% endif %}
         
@@ -101,13 +54,13 @@
           <p>Such as Twitter are perfectly made to faciliate this discussion on a daily basis.</p>
         </div>
         
-        <h3>We're just making it dead simple.</h3>
+        <h3 id="dead_simple">We're just making it dead simple.</h3>
       </div>
 
       <hr>
 
       <div class="footer">
-        <img id="footer_logo" src="{{ STATIC_URL }}sunlight_logo.gif" alt="Powered by the Sunlight Foundation">
+        <img id="footer_logo" src="{{ STATIC_URL }}img/sunlight_logo.gif" alt="Powered by the Sunlight Foundation">
       </div>
 
     </div> <!-- /container -->

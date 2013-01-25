@@ -1,21 +1,105 @@
-Your representatives are 
-</br>
+{% load humanize %}
 
-Senator {{ results.senator1.firstname }} {{ results.senator1.lastname }}
-</br>
-<a href="https://twitter.com/{{ results.senator1.twitter_id }}" class="twitter-follow-button" data-show-count="false" data-lang="en" data-size="large">Follow @{{ results.senator1.twitter_id }} </a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-</br>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Twitter Congress</title>
+	<!-- Bootstrap --> 
+	<link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
 
-Senator {{ results.senator2.firstname }} {{ results.senator2.lastname }}.
-</br>
-<a href="https://twitter.com/{{ results.senator2.twitter_id }}" class="twitter-follow-button" data-show-count="false" data-lang="en" data-size="large">Follow @{{ results.senator2.twitter_id }} </a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-</br>
+	<!-- Custom CSS for Twitter Congress -->
+	<link href="{{ STATIC_URL }}css/twittercongress.css" rel="stylesheet" type="text/css" />
 
-Representative {{ results.representative.firstname }} {{ results.representative.lastname }}
-</br>
-<a href="https://twitter.com/{{ results.representative.twitter_id }}" class="twitter-follow-button" data-show-count="false" data-lang="en" data-size="large">Follow @{{ results.representative.twitter_id }} </a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</head>
+
+<body>
+	<div class="container-narrow">
+		<div class="masthead">
+			<ul class="nav nav-pills pull-right">
+				<li><a href="/">Home</a></li>
+				<li><a href="mailto:alexander@usv.com">Contact</a></li>
+			</ul>
+			<h3 class="muted">Tweet @ Congress</h3>
+		</div>
+
+		<hr>
+
+
+    <div class="jumbotron">
+      <h3>You are a member of {{ results.state }}'s {{ results.representative.district|ordinal }} Congressional District</h3>
+      <h4>Follow and tweet at your Representatives!</h4>
+
+    </br>
+
+      <div class="row-fluid">
+        <div class="span4">
+          <img class="img-polaroid" src="{{ STATIC_URL }}{{ results.representative.image }}">
+          <h4> Rep. {{ results.representative.firstname }} {{ results.representative.lastname }} ({{ results.representative.party}})</h4>
+          
+
+          {% if results.representative.twitter_id %}
+          <a href="https://twitter.com/{{ results.representative.twitter_id }}" class="twitter-follow-button" data-show-count="false" data-lang="en" data-size="large">Follow @{{ results.representative.twitter_id }} </a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          {% else %}
+
+          {% endif %}
+        </div>
+
+        <div class="span4">
+          <img class="img-polaroid" src="{{ STATIC_URL }}{{ results.senator1.image }}">
+          <h4>Sen. {{ results.senator1.firstname }} {{ results.senator1.lastname }} ({{ results.senator1.party }})</h4>
+
+          {% if results.senator1.twitter_id %}
+          <a href="https://twitter.com/{{ results.senator1.twitter_id }}" class="twitter-follow-button" data-show-count="false" data-lang="en" data-size="large">Follow @{{ results.senator1.twitter_id }} </a>
+         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          {% else %}
+
+          {% endif %}
+        </div>
+        
+        <div class="span4">
+          <img class="img-polaroid" src="{{ STATIC_URL }}{{ results.senator2.image }}">
+          <h4> Sen. {{ results.senator2.firstname }} {{ results.senator2.lastname }} ({{ results.senator1.party }})</h4>
+
+          {% if results.senator2.twitter_id %}
+          <a href="https://twitter.com/{{ results.senator2.twitter_id }}" class="twitter-follow-button" data-show-count="false" data-lang="en" data-size="large">Follow @{{ results.senator2.twitter_id }} </a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          {% else %}
+          <h5>No Twitter account?!</h5>
+          {% endif %}
+        </div>
+      </div> <!-- row-fluid -->
+
+    </div> <!-- / body container -->
+    
+    <hr>
+
+    <div class="footer">
+    	<img id="footer_logo" src="{{ STATIC_URL }}img/sunlight_logo.gif" alt="Powered by the Sunlight Foundation">
+    </div>
+
+  </div> <!-- / jumbotron container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/bootstrap-transition.js"></script>
+    <script src="../assets/js/bootstrap-alert.js"></script>
+    <script src="../assets/js/bootstrap-modal.js"></script>
+    <script src="../assets/js/bootstrap-dropdown.js"></script>
+    <script src="../assets/js/bootstrap-scrollspy.js"></script>
+    <script src="../assets/js/bootstrap-tab.js"></script>
+    <script src="../assets/js/bootstrap-tooltip.js"></script>
+    <script src="../assets/js/bootstrap-popover.js"></script>
+    <script src="../assets/js/bootstrap-button.js"></script>
+    <script src="../assets/js/bootstrap-collapse.js"></script>
+    <script src="../assets/js/bootstrap-carousel.js"></script>
+    <script src="../assets/js/bootstrap-typeahead.js"></script>
+
+</body>
+</html>
+
 
 
