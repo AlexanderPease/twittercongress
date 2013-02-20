@@ -24,6 +24,9 @@
         font-size: 72px;
         line-height: 1;
       }
+      .input-large {
+        width: 300px;
+      }
 
       /* Supporting marketing content */
       .marketing {

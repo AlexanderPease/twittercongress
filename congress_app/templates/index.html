@@ -28,17 +28,31 @@
         <h1>Tweet @ Congress</h1>
         </br>
 
-        {% if not error_message %}
-        <p class="lead">Just input your ZIP code to follow your Congressional Representatives on Twitter</p>
-        {% else %}
-          <p class="lead text-error">Sorry, '{{ error_message }}' is not viable a ZIP code!</p>
+        {% if error_zip_code %}
+          <p class="lead text-error">Sorry, '{{ error_zip_code }}' is not viable a ZIP code!</p>
+          <form action="/" method="get" class="form-search">
+            <input type="text" class="input-medium search-query" name="zip_code" placeholder="Ex: 03840"/>
+            <button type="submit" class="btn btn-primary">Find!</button>
+          </form>
+        {% elif error_multiple_districts %}
+          <p class="lead text-error">Hmmm, your ZIP code includes multiple districts. Try your home address</p>
+          <form action="/" method="get" class="form-search">
+            <input type="text" class="input-large search-query" name="address" width="300px" placeholder="Ex: 22 Bayridge Road, Greenland NH"/>
+            <button type="submit" class="btn btn-primary">Find!</button>
+          </form>
+        {% elif error_bad_address %}
+          <p class="lead text-error">Google Maps couldn't find you! Try again?</p>
+          <form action="/" method="get" class="form-search">
+            <input type="text" class="input-large search-query" name="address" width="300px" placeholder="Ex: 22 Bayridge Road, Greenland NH"/>
+            <button type="submit" class="btn btn-primary">Find!</button>
+          </form>
+        {% else %}  
+          <p class="lead">Just input your ZIP code to follow your Congressional Representatives on Twitter</p>
+          <form action="/" method="get" class="form-search">
+            <input type="text" class="input-medium search-query" name="zip_code" placeholder="Ex: 03840"/>
+            <button type="submit" class="btn btn-primary">Find!</button>
+          </form>
         {% endif %}
-        
-        <form action="/" method="get" class="form-search">
-        <input type="text" class="input-medium search-query" name="zip_code"/>
-        <button type="submit" class="btn btn-primary">Find!</button>
-        
-        </form>
       </div>
 
       <hr>
