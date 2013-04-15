@@ -1,0 +1,10 @@
+Django==1.4.3
+distribute==0.6.31
+dj-database-url==0.2.1
+gunicorn==0.17.2
+psycopg2==2.5
+wsgiref==0.1.2
+simplejson==3.1.0
+sunlight==1.1.7
+python-dateutil==1.5
+geopy==0.94.2
