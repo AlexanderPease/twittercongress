@@ -24,8 +24,11 @@ def index(request):
     # User is only asked for address if ZIP code contains multiple districts
     if address:
         #district = district_for_address(address, request)    
-        g = geocoders.Google()
+        g = geocoders.GoogleV3()
+        place, (lat, lon) = g.geocode(address)
+        pprint(place) #support multiple locations
         try:
+            print "tried"
             place, (lat, lon) = g.geocode(address)
             pprint(place) #support multiple locations
         except: 
