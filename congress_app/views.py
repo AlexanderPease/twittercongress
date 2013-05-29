@@ -1,22 +1,22 @@
 # Views for congress_app
+# Django imports
 from django.shortcuts import render_to_response #get_object_or_404,
 from django.template import Context, RequestContext, loader
 from django.conf import settings #for STATIC_URL
+from congress_app.models import Politician
+
+#Outside imports
 import os.path
-from sunlight import congress
+from sunlight import congress # THIS LIBRARY IS DEPRECATED. CURRENTLY USED FOR REPRESENTATIVES INFO. WILL DIE IN 2015.
 from geopy import geocoders
 from pprint import pprint
 import re #regular expressions
 import constants
 
-#def district_for_address(address, request):
-#    return districts[0]
-
-#def district_for_zip_code(zip_code, request):
-#    return districts[0]
-
 
 def index(request):
+    Politician.sunlight_to_models()
+
     zip_code = request.GET.get('zip_code')
     address = request.GET.get('address')
 
