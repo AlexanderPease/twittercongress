@@ -15,8 +15,6 @@ import constants
 
 
 def index(request):
-    Politician.sunlight_to_models()
-
     zip_code = request.GET.get('zip_code')
     address = request.GET.get('address')
 
