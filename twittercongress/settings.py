@@ -18,10 +18,15 @@ DATABASES = {
         'NAME': os.path.join(PROJECT_ROOT,'twittercongress/sqlite3.db'),  # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'HOST': '',                     # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+# For Heroku: Parse database configuration from $DATABASE_URL
+#import dj_database_url
+#if os.getcwd() == "/app": # find current working directory. if on heroku, use database below
+#    DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -135,8 +140,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'django.contrib.humanize',
-    #'polls',
     'congress_app',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -167,10 +172,6 @@ LOGGING = {
         },
     }
 }
-
-# Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
