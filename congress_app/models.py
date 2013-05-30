@@ -127,7 +127,7 @@ class Politician(models.Model):
             if politician.title == "Rep":
                 twitter_FTV = "FTV_" + politician.title + politician.state +  politician.district + "th" 
             else:
-                twitter_FTV = "FTV_" + politician.state + politician.title 
+                twitter_FTV = "FTV_" + politician.state + politician.full_title() 
             print "%s %s" % (twitter_FTV, len(twitter_FTV))
             if len(twitter_FTV) > 15:
                 raise Exception
