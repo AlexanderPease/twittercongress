@@ -14,6 +14,11 @@ import re #regular expressions
 
 
 def index(request):
+    Politician.generate_FTV_twitter()
+
+
+
+
     zip_code = request.GET.get('zip_code')
     address = request.GET.get('address')
 
