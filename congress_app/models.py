@@ -60,3 +60,60 @@ class Politician(models.Model):
             else:
                 print '%s does not have twitter' % new_politician
 
+    ''' Manually input twitter ids not included in Sunlight '''
+    @classmethod
+    def extra_twitter_handles(cls):
+        TWITTER_EXTRA = [
+        ('Grayson', 'AlanGrayson'),
+        ('Hastings', 'alceehastings'),
+        ('Franken', 'alfranken'),
+        ('Long', 'auctnr1'),
+        ('Cassidy', 'BillCassidy'),
+        ('Schatz', 'brianschatz'),
+        ('Murphy', 'ChrisMurphyCT'),
+        ('Rohrabacher', 'DanaRohrabacher'),
+        ('Davis', 'DannyKDavis'),
+        ('Vitter', 'DavidVitter'),
+        ('Cummings', 'ElijahECummings'),
+        ('Lucas', 'FrankDLucas'),
+        ('Garcia', 'JoeGarcia'),
+        ('Tester', 'jontester'),
+        ('Beatty', 'JoyceBeatty'),
+        ('Brownley', 'JuliaBrownley'),
+        ('Ayotte', 'KellyAyotte'),
+        ('Capuano', 'MikeCapuano'),
+        ('Hall', 'RalphHallPress'),
+        ('Andrews', 'RepAndrews'),
+        ('Cardenas', 'RepCardenas'), #should be a with accent
+        ('Guthrie', 'RepGuthrie'),
+        ('Sarbanes', 'RepJohnSarbanes'),
+        ('Lance', 'RepLanceNJ7'),
+        ('Lipinski', 'RepLipinski'),
+        ('Pocan', 'repmarkpocan'),
+        ('Welch', 'RepPeterWelch'),
+        ('Davis', 'RepSusanDavis'),
+        ('Baldwin', 'RepTammyBaldwin'),
+        ('Thompson', 'RepThompson'),
+        ('Holt', 'RushHolt'),
+        ('Isakson', 'SenatorIsakson'),
+        ('Risch', 'SenatorRisch'),
+        ('Gillibrand', 'SenGillibrand'),
+        ('Cowan', 'SenMoCowan'),
+        ('Scalise', 'SteveScalise'),
+        ('Massie', 'ThomasMassieKY'),
+        ('Walz', 'Tim_Walz'),
+        ('Kaine', 'timkaine'),
+        ('Radel', 'treyradel'),
+        ]
+        for politician in Politician.objects.filter(twitter=None):
+            for pair in TWITTER_EXTRA:
+                if politician.last_name == pair[0]:
+                    politician.twitter = pair[1]
+                    politician.save()
+
+
+
+
+
+
+
