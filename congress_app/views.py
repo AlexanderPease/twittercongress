@@ -11,13 +11,11 @@ from sunlight import congress # THIS LIBRARY IS DEPRECATED. CURRENTLY USED FOR R
 from geopy import geocoders
 from pprint import pprint
 import re #regular expressions
+import twitter
 
 
 def index(request):
-    Politician.generate_FTV_twitter()
-
-
-
+    scratch()
 
     zip_code = request.GET.get('zip_code')
     address = request.GET.get('address')
@@ -67,3 +65,19 @@ def index(request):
     senators = Politician.objects.filter(title='Sen', state=district['state'])
     legislators = {'representative': representative, 'senator1':senators[0], 'senator2':senators[1]}
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
+
+def scratch():
+    api = twitter.Api()
+    api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
+                      consumer_secret='nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4',
+                      access_token_key='302134974-yHxDpVtMa7l5fHiKNOdF7zKoHTyrTvrrqotdhv1j',
+                      access_token_secret='DDKz8vZMF5DTdJWkhfCtn2ZVfyWbxZnc1jLTkbLow')
+    #print api.VerifyCredentials()
+    statuses = api.GetUserTimeline()
+    print [s.text for s in statuses]
+
+    users = api.GetFriends()
+    print [u.name for u in users]
+    
+
+    #Politician.generate_FTV_twitter()

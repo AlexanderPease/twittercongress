@@ -8,7 +8,7 @@ class Politician(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     state = models.CharField(max_length=2) # use capitalized state abbreviations (ex: NH)
-    district = models.CharField(max_length=100) # string for senators' seat (Jr. or Sr.)
+    district = models.CharField(max_length=100) # number for reps, string for senators' seat (Jr. or Sr.)
     title = models.CharField(max_length=20) # Sen or Rep
     party = models.CharField(max_length=1) # D or R
     portrait_id = models.CharField(max_length=200, blank=True, null=True)
@@ -93,7 +93,7 @@ class Politician(models.Model):
         ('Capuano', 'MikeCapuano'),
         ('Hall', 'RalphHallPress'),
         ('Andrews', 'RepAndrews'),
-        ('Cardenas', 'RepCardenas'), #should be a with accent
+        ('Cardenas', 'RepCardenas'), #should be an with accent
         ('Guthrie', 'RepGuthrie'),
         ('Sarbanes', 'RepJohnSarbanes'),
         ('Lance', 'RepLanceNJ7'),
@@ -120,14 +120,16 @@ class Politician(models.Model):
                     politician.twitter = pair[1]
                     politician.save()
 
-    ''' Method to generate FollowTheVote.org twitter handles for each politician '''
+    ''' Method to generate FollowTheVote.org twitter handles for each politician. '''
     @classmethod
     def generate_FTV_twitter(cls):
         for politician in Politician.objects.all():
             if politician.title == "Rep":
                 twitter_FTV = "FTV_" + politician.title + politician.state +  politician.district + "th" 
-            else:
-                twitter_FTV = "FTV_" + politician.state + politician.full_title() 
+                #twitter_FTV = politician.last_name + "_FTV"
+            else: 
+                twitter_FTV = "FTV_" + politician.state + politician.full_title()
+                #twitter_FTV = politician.last_name + "_FTV"
             print "%s %s" % (twitter_FTV, len(twitter_FTV))
             if len(twitter_FTV) > 15:
                 raise Exception
