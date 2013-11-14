@@ -67,7 +67,7 @@ def index(request):
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
 
 def scratch():
-    api = twitter.Api()
+    #api = twitter.Api()
     api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
                       consumer_secret='nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4',
                       access_token_key='302134974-yHxDpVtMa7l5fHiKNOdF7zKoHTyrTvrrqotdhv1j',
@@ -78,6 +78,9 @@ def scratch():
 
     users = api.GetFriends()
     print [u.name for u in users]
-    
+
+    #status = api.PostUpdate('My first tweet from the command line')
+    #print status.text
+    #print api.VerifyCredentials()
 
     #Politician.generate_FTV_twitter()
