@@ -70,14 +70,14 @@ def scratch():
     #api = twitter.Api()
     api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
                       consumer_secret='nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4',
-                      access_token_key='302134974-yHxDpVtMa7l5fHiKNOdF7zKoHTyrTvrrqotdhv1j',
-                      access_token_secret='DDKz8vZMF5DTdJWkhfCtn2ZVfyWbxZnc1jLTkbLow')
-    #print api.VerifyCredentials()
-    statuses = api.GetUserTimeline()
-    print [s.text for s in statuses]
+                      access_token_key='302134974-AOSt6vdcsgvurVPIuim1uWx3z3wLZlkGjbTQu3p2',
+                      access_token_secret='OXi1vlzvrrPESDHhbtT1nFtA0y5vmvG59zQFxL88dyDTd')
+    print api.VerifyCredentials()
+    #statuses = api.GetUserTimeline()
+    #print [s.text for s in statuses]
 
-    users = api.GetFriends()
-    print [u.name for u in users]
+    #users = api.GetFriends()
+    #print [u.name for u in users]
 
     #status = api.PostUpdate('My first tweet from the command line')
     #print status.text
