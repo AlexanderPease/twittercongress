@@ -7,7 +7,7 @@ from congress_app.models import Politician
 
 #Outside imports
 import os.path
-from sunlight import congress # THIS LIBRARY IS DEPRECATED. CURRENTLY USED FOR REPRESENTATIVES INFO. WILL DIE IN 2015.
+from sunlight import congress
 from geopy import geocoders
 from pprint import pprint
 import re #regular expressions
@@ -15,8 +15,6 @@ import twitter
 
 
 def index(request):
-    scratch()
-
     zip_code = request.GET.get('zip_code')
     address = request.GET.get('address')
 

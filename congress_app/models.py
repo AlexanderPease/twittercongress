@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings #for STATIC_URL
 import os
-from sunlight import congress # THIS LIBRARY IS DEPRECATED. CURRENTLY USED FOR REPRESENTATIVES INFO. WILL DIE IN 2015.
+from sunlight import congress
 import constants # full state names
 
 class Politician(models.Model):
