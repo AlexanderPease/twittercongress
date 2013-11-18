@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings #for STATIC_URL
 import os
-from sunlight import congress
+from sunlight import congress # DEPRECATED. SWITCH FROM SUNLIGHT CONGRESS TO CONGRESS API
 import constants # full state names
 
 class Politician(models.Model):
@@ -153,4 +153,7 @@ class Twitter(models.Model):
 
     def __unicode__(self):
         return self.handle
+
+#class Vote(models.Model)
+
 

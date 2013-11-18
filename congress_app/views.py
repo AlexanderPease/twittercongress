@@ -7,7 +7,7 @@ from congress_app.models import Politician, Twitter
 
 #Outside imports
 import os.path
-from sunlight import congress
+from sunlight import congress # DEPRECATED. SWITCH FROM SUNLIGHT CONGRESS TO CONGRESS API
 from geopy import geocoders
 from pprint import pprint
 import re #regular expressions
@@ -15,6 +15,9 @@ import twitter
 
 
 def index(request):
+    scratch()
+
+
     zip_code = request.GET.get('zip_code')
     address = request.GET.get('address')
 
@@ -65,12 +68,16 @@ def index(request):
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
 
 def scratch():
-    #api = twitter.Api()
-    api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
+    # Sunlight
+    #congress.api.sunlightfoundation.com/votes?chamber=house&number=10&year=2013&apikey=6beac436fa02439abfe8f27909ab3d8f
+
+    # Twitter
+    '''api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
                       consumer_secret='nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4',
                       access_token_key='302134974-AOSt6vdcsgvurVPIuim1uWx3z3wLZlkGjbTQu3p2',
                       access_token_secret='OXi1vlzvrrPESDHhbtT1nFtA0y5vmvG59zQFxL88dyDTd')
     print api.VerifyCredentials()
+    '''
     #statuses = api.GetUserTimeline()
     #print [s.text for s in statuses]
 
