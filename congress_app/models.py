@@ -12,9 +12,6 @@ class Politician(models.Model):
     title = models.CharField(max_length=20) # Sen or Rep
     party = models.CharField(max_length=1) # D or R
     portrait_id = models.CharField(max_length=200, blank=True, null=True)
-
-    twitter = models.CharField(max_length=15, blank=True, null=True) # Politicians' own twitter ID
-    #twitter = models.CharField(max_length=15, blank=True, null=True)
 	
 
     def __unicode__(self):
@@ -64,8 +61,10 @@ class Politician(models.Model):
                                                                             title=politician['title'],
                                                                             portrait_id=politician['bioguide_id'])
             if politician['twitter_id']:
-                new_politician.twitter = politician['twitter_id']
-                new_politician.save()
+                twitter, created_flag = Twitter.objects.get_or_create(handle=politician['twitter_id'])
+                if twitter:
+                    new_politician.twitter = twitter
+                    politician.save()
             else:
                 print '%s does not have twitter' % new_politician
 
@@ -117,8 +116,10 @@ class Politician(models.Model):
         for politician in Politician.objects.filter(twitter=None):
             for pair in TWITTER_EXTRA:
                 if politician.last_name == pair[0]:
-                    politician.twitter = pair[1]
-                    politician.save()
+                    twitter, created_flag = Twitter.objects.get_or_create(handle=pair[1])
+                    if twitter:
+                        politician.twitter = twitter
+                        politician.save()
 
     ''' Method to generate FollowTheVote.org twitter handles for each politician. '''
     @classmethod
@@ -133,10 +134,15 @@ class Politician(models.Model):
             print "%s %s" % (twitter_FTV, len(twitter_FTV))
             if len(twitter_FTV) > 15:
                 raise Exception
+       
 
-            
+class Twitter(models.Model):
+    user_id = models.IntegerField(blank=True) # Static user id number for the account. NEED TO FILL IN
+    handle = models.CharField(max_length=15, blank=True, null=True)
+    
+    politician = models.ForeignKey(Politician)
+    ftv = models.BooleanField() # True if an FTV created twitter account, False if politician's own account
 
-
-
-
+    def __unicode__(self):
+        return self.handle
 
