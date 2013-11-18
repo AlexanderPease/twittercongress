@@ -3,7 +3,7 @@
 from django.shortcuts import render_to_response #get_object_or_404,
 from django.template import Context, RequestContext, loader
 from django.conf import settings #for STATIC_URL
-from congress_app.models import Politician
+from congress_app.models import Politician, Twitter
 
 #Outside imports
 import os.path

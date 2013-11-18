@@ -47,6 +47,19 @@ class Politician(models.Model):
         else: 
             return 'img/200x250/DEFAULT.jpg'
 
+    ''' Adds twitter handle '''
+    def add_twitter(self, handle, ftv=False):
+        twitter, created_flag = Twitter.objects.get_or_create(handle=handle, politician_id=self.id)
+        if created_flag:
+            self.twitter = twitter
+            self.save()
+            print 'Added twitter handle %s to politician %s' % (twitter, self)
+       
+        # Parse if new twitter handle is owned by me or not
+        if ftv:
+            twitter.ftv = True
+            ftv.save()
+
     ''' Inits Django Politician models from the Sunlight Congress API '''
     @classmethod
     def sunlight_to_models(cls):
@@ -61,10 +74,7 @@ class Politician(models.Model):
                                                                             title=politician['title'],
                                                                             portrait_id=politician['bioguide_id'])
             if politician['twitter_id']:
-                twitter, created_flag = Twitter.objects.get_or_create(handle=politician['twitter_id'])
-                if twitter:
-                    new_politician.twitter = twitter
-                    politician.save()
+                new_politician.add_twitter(politician['twitter_id'])
             else:
                 print '%s does not have twitter' % new_politician
 
@@ -116,10 +126,8 @@ class Politician(models.Model):
         for politician in Politician.objects.filter(twitter=None):
             for pair in TWITTER_EXTRA:
                 if politician.last_name == pair[0]:
-                    twitter, created_flag = Twitter.objects.get_or_create(handle=pair[1])
-                    if twitter:
-                        politician.twitter = twitter
-                        politician.save()
+                    politician.add_twitter(pair[1])
+
 
     ''' Method to generate FollowTheVote.org twitter handles for each politician. '''
     @classmethod
@@ -137,7 +145,7 @@ class Politician(models.Model):
        
 
 class Twitter(models.Model):
-    user_id = models.IntegerField(blank=True) # Static user id number for the account. NEED TO FILL IN
+    user_id = models.IntegerField(blank=True, null=True) # Static user id number for the account. NEED TO FILL IN
     handle = models.CharField(max_length=15, blank=True, null=True)
     
     politician = models.ForeignKey(Politician)
