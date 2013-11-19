@@ -143,20 +143,28 @@ class Politician(models.Model):
             if len(twitter_FTV) > 15:
                 raise Exception
        
-''' Twitter account. This can be a simple model or hold information and history about an FTV account '''
+''' Twitter account of a politician'''
 class Twitter(models.Model):
     user_id = models.IntegerField(blank=True, null=True) # Static user id number for the account. NEED TO FILL IN
     handle = models.CharField(max_length=15, blank=True, null=True)
     
     politician = models.ForeignKey(Politician)
-    ftv = models.BooleanField() # True if an FTV created twitter account, False if politician's own account
 
     def __unicode__(self):
         return self.handle
 
-    # Is the account owned by FTV or not
+    # This class is for non-FTV accounts
     def is_ftv(self):
-        return self.ftv
+        return False
+
+''' Twitter account held by FTV. '''
+class Twitter_FTV(Twitter):
+    #consumer_key
+    #consumer_secret
+
+    # Overrides Twitter method
+    def is_ftv(self):
+        return True
 
 
 
