@@ -18,17 +18,26 @@ class Migration(SchemaMigration):
             ('title', self.gf('django.db.models.fields.CharField')(max_length=20)),
             ('party', self.gf('django.db.models.fields.CharField')(max_length=1)),
             ('portrait_id', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
-            ('twitter', self.gf('django.db.models.fields.CharField')(max_length=15, null=True, blank=True)),
         ))
         db.send_create_signal(u'congress_app', ['Politician'])
 
         # Adding model 'Twitter'
         db.create_table(u'congress_app_twitter', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user_id', self.gf('django.db.models.fields.IntegerField')()),
+            ('user_id', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('handle', self.gf('django.db.models.fields.CharField')(max_length=15, null=True, blank=True)),
+            ('politician', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['congress_app.Politician'], unique=True)),
         ))
         db.send_create_signal(u'congress_app', ['Twitter'])
+
+        # Adding model 'Twitter_FTV'
+        db.create_table(u'congress_app_twitter_ftv', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user_id', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('handle', self.gf('django.db.models.fields.CharField')(max_length=15, null=True, blank=True)),
+            ('politician', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['congress_app.Politician'], unique=True)),
+        ))
+        db.send_create_signal(u'congress_app', ['Twitter_FTV'])
 
 
     def backwards(self, orm):
@@ -37,6 +46,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Twitter'
         db.delete_table(u'congress_app_twitter')
+
+        # Deleting model 'Twitter_FTV'
+        db.delete_table(u'congress_app_twitter_ftv')
 
 
     models = {
@@ -49,14 +61,21 @@ class Migration(SchemaMigration):
             'party': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'portrait_id': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'state': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
-            'twitter': ('django.db.models.fields.CharField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'})
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '20'})
         },
         u'congress_app.twitter': {
             'Meta': {'object_name': 'Twitter'},
             'handle': ('django.db.models.fields.CharField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user_id': ('django.db.models.fields.IntegerField', [], {})
+            'politician': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['congress_app.Politician']", 'unique': 'True'}),
+            'user_id': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
+        },
+        u'congress_app.twitter_ftv': {
+            'Meta': {'object_name': 'Twitter_FTV'},
+            'handle': ('django.db.models.fields.CharField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'politician': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['congress_app.Politician']", 'unique': 'True'}),
+            'user_id': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         }
     }
 
