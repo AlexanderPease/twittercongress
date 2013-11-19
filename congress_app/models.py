@@ -146,27 +146,24 @@ class Politician(models.Model):
 ''' Twitter account of a politician'''
 class Twitter(models.Model):
     user_id = models.IntegerField(blank=True, null=True) # Static user id number for the account. NEED TO FILL IN
-    handle = models.CharField(max_length=15, blank=True, null=True)
-    
-    politician = models.ForeignKey(Politician)
+    handle = models.CharField(max_length=15, blank=True, null=True) # Max length of twitter handle
+    politician = models.OneToOneField(Politician)
 
     def __unicode__(self):
         return self.handle
 
-    # This class is for non-FTV accounts
-    def is_ftv(self):
-        return False
 
 ''' Twitter account held by FTV. '''
-class Twitter_FTV(Twitter):
+class Twitter_FTV(models.Model):
+    user_id = models.IntegerField(blank=True, null=True) # Static user id number for the account. NEED TO FILL IN
+    handle = models.CharField(max_length=15, blank=True, null=True) # Max length of twitter handle
+    politician = models.OneToOneField(Politician)
+
     #consumer_key
     #consumer_secret
 
-    # Overrides Twitter method
-    def is_ftv(self):
-        return True
-
-
+    def __unicode__(self):
+        return self.handle
 
 
 

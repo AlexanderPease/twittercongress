@@ -3,7 +3,7 @@
 from django.shortcuts import render_to_response #get_object_or_404,
 from django.template import Context, RequestContext, loader
 from django.conf import settings #for STATIC_URL
-from congress_app.models import Politician, Twitter
+from congress_app.models import Politician, Twitter, Twitter_FTV
 
 #Outside imports
 import os.path
@@ -68,6 +68,7 @@ def index(request):
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
 
 def scratch():
+    ftv = Twitter_FTV.objects.create(handle="test", politician_id=1)
     # Sunlight
     votes = congress.votes(year=2013, chamber="house", number=7, fields="voter_ids")
     vote = votes[0] # only one vote (b/c only one bill in the query)
