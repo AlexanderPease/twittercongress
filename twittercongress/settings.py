@@ -175,3 +175,5 @@ LOGGING = {
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+SUNLIGHT_API_KEY = '6beac436fa02439abfe8f27909ab3d8f'

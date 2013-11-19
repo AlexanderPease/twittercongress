@@ -7,7 +7,7 @@ from congress_app.models import Politician, Twitter
 
 #Outside imports
 import os.path
-from sunlight import congress # DEPRECATED. SWITCH FROM SUNLIGHT CONGRESS TO CONGRESS API
+from sunlight import congress, congress_deprecated
 from geopy import geocoders
 from pprint import pprint
 import re #regular expressions
@@ -34,7 +34,7 @@ def index(request):
             pprint(place) #support multiple locations
         except: 
              return render_to_response('index.html', {'error_bad_address': address}, context_instance=RequestContext(request))
-        districts = congress.districts_for_lat_lon(lat, lon)
+        districts = congress_deprecated.districts_for_lat_lon(lat, lon)
         if len(districts) != 1: 
             pprint('Multiple districts for single geopoint?!') #debug
         else:
@@ -47,7 +47,7 @@ def index(request):
         if not zip_code:
             return render_to_response('index.html', context_instance=RequestContext(request))
 
-        districts = congress.districts_for_zip(zip_code)
+        districts = congress_deprecated.districts_for_zip(zip_code)
         # Test if zip_code is valid
         regex = re.compile('\d{5,5}')
         if not (regex.match(zip_code) and districts):
@@ -69,7 +69,8 @@ def index(request):
 
 def scratch():
     # Sunlight
-    #congress.api.sunlightfoundation.com/votes?chamber=house&number=10&year=2013&apikey=6beac436fa02439abfe8f27909ab3d8f
+    # congress.api.sunlightfoundation.com/votes?chamber=house&number=10&year=2013&apikey=6beac436fa02439abfe8f27909ab3d8f
+    print congress.votes(year=2013, chamber="house", number=7, fields="voters")
 
     # Twitter
     '''api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
