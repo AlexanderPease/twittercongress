@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings #for STATIC_URL
 import os
-from sunlight import congress # DEPRECATED. SWITCH FROM SUNLIGHT CONGRESS TO CONGRESS API
+from sunlight import congress
 import constants # full state names
 
 class Politician(models.Model):
@@ -143,7 +143,7 @@ class Politician(models.Model):
             if len(twitter_FTV) > 15:
                 raise Exception
        
-
+''' Twitter account. This can be a simple model or hold information and history about an FTV account '''
 class Twitter(models.Model):
     user_id = models.IntegerField(blank=True, null=True) # Static user id number for the account. NEED TO FILL IN
     handle = models.CharField(max_length=15, blank=True, null=True)
@@ -154,6 +154,13 @@ class Twitter(models.Model):
     def __unicode__(self):
         return self.handle
 
-#class Vote(models.Model)
+    # Is the account owned by FTV or not
+    def is_ftv(self):
+        return self.ftv
+
+
+
+
+
 
 

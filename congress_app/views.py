@@ -70,7 +70,11 @@ def index(request):
 def scratch():
     # Sunlight
     # congress.api.sunlightfoundation.com/votes?chamber=house&number=10&year=2013&apikey=6beac436fa02439abfe8f27909ab3d8f
-    print congress.votes(year=2013, chamber="house", number=7, fields="voters")
+    votes = congress.votes(year=2013, chamber="house", number=7, fields="voter_ids")
+    vote = votes[0] # only one vote (b/c only one bill in the query)
+    voter_ids = vote['voter_ids']
+    print voter_ids['M000485']
+    print "-------------"
 
     # Twitter
     '''api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
