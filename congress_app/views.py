@@ -11,7 +11,7 @@ from sunlight import congress, congress_deprecated
 from geopy import geocoders
 from pprint import pprint
 import re #regular expressions
-import twitter
+import twitter # bear/python-twitter
 
 
 def index(request):
@@ -77,12 +77,12 @@ def scratch():
     print "-------------"
 
     # Twitter
-    '''api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
+    api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
                       consumer_secret='nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4',
                       access_token_key='302134974-AOSt6vdcsgvurVPIuim1uWx3z3wLZlkGjbTQu3p2',
                       access_token_secret='OXi1vlzvrrPESDHhbtT1nFtA0y5vmvG59zQFxL88dyDTd')
-    print api.VerifyCredentials()
-    '''
+    #print api.VerifyCredentials()
+    
     #statuses = api.GetUserTimeline()
     #print [s.text for s in statuses]
 
@@ -91,6 +91,7 @@ def scratch():
 
     #status = api.PostUpdate('My first tweet from the command line')
     #print status.text
-    #print api.VerifyCredentials()
 
     #Politician.generate_FTV_twitter()
+
+    api.
