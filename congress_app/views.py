@@ -68,7 +68,7 @@ def index(request):
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
 
 def scratch():
-    ftv = Twitter_FTV.objects.create(handle="test", politician_id=1)
+    #ftv = Twitter_FTV.objects.create(handle="test", politician_id=1)
     # Sunlight
     votes = congress.votes(year=2013, chamber="house", number=7, fields="voter_ids")
     vote = votes[0] # only one vote (b/c only one bill in the query)
@@ -77,10 +77,11 @@ def scratch():
     print "-------------"
 
     # Twitter
-    api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
+    '''api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
                       consumer_secret='nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4',
                       access_token_key='302134974-AOSt6vdcsgvurVPIuim1uWx3z3wLZlkGjbTQu3p2',
                       access_token_secret='OXi1vlzvrrPESDHhbtT1nFtA0y5vmvG59zQFxL88dyDTd')
+    '''
     #print api.VerifyCredentials()
     
     #statuses = api.GetUserTimeline()
@@ -93,5 +94,3 @@ def scratch():
     #print status.text
 
     #Politician.generate_FTV_twitter()
-
-    api.

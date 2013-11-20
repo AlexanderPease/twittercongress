@@ -2,7 +2,8 @@ from django.db import models
 from django.conf import settings #for STATIC_URL
 import os
 from sunlight import congress
-import constants # full state names
+import constants # for full state names
+import twitter # bear/python-twitter
 
 class Politician(models.Model):
     first_name = models.CharField(max_length=200)
@@ -166,7 +167,24 @@ class Twitter_FTV(models.Model):
     def __unicode__(self):
         return self.handle
 
+    ''' Tweets message from this account '''
+    def tweet(self, message):
+        try:
+            api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
+                        consumer_secret='nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4',
+                        access_token_key=self.access_key,
+                        access_token_secret=self.access_secret)
+        except:
+            'Failed to authenticate with API'
+            print api.VerifyCredentials()
+            return 
 
+        try:
+            status = api.PostUpdate(message)
+            print status.text
+        except:
+            print 'Failed to post status (tweet)'
+            return 
 
 
 
