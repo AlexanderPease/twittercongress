@@ -23,12 +23,14 @@ except:
 import webbrowser
 import oauth2 as oauth
 
+from congress_app.models import Twitter_FTV
+
 REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
 ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
 AUTHORIZATION_URL = 'https://api.twitter.com/oauth/authorize'
 SIGNIN_URL = 'https://api.twitter.com/oauth/authenticate'
 
-
+''' Gets access key and token for the Twitter user currently logged into default browser '''
 def get_access_token(consumer_key, consumer_secret):
 
     signature_method_hmac_sha1 = oauth.SignatureMethod_HMAC_SHA1()
@@ -75,12 +77,19 @@ def get_access_token(consumer_key, consumer_secret):
             print 'Your Twitter Access Token key: %s' % access_token['oauth_token']
             print '          Access Token secret: %s' % access_token['oauth_token_secret']
             print ''
+            return access_token['oauth_token'], access_token['oauth_token_secret']
+
 
 
 def main():
-    consumer_key = raw_input('Enter your consumer key: ')
-    consumer_secret = raw_input("Enter your consumer secret: ")
-    get_access_token(consumer_key, consumer_secret)
+    consumer_key = 'hNxtR1bjU2QnJqQZYftUzA'
+    consumer_secret = 'nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4'
+    if not consumer_key: 
+        consumer_key = raw_input('Enter your consumer key: ')
+    if not consumer_secret:
+        consumer_secret = raw_input("Enter your consumer secret: ")
+    access_key, access_secret = get_access_token(consumer_key, consumer_secret)
+
 
 if __name__ == "__main__":
     main()

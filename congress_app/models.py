@@ -159,8 +159,9 @@ class Twitter_FTV(models.Model):
     handle = models.CharField(max_length=15, blank=True, null=True) # Max length of twitter handle
     politician = models.OneToOneField(Politician)
 
-    #consumer_key
-    #consumer_secret
+    #OAuth, doesn't expire
+    consumer_key = models.CharField(max_length=50, blank=True, null=True)
+    consumer_secret = models.CharField(max_length=50, blank=True, null=True)
 
     def __unicode__(self):
         return self.handle
