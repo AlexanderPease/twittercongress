@@ -160,8 +160,8 @@ class Twitter_FTV(models.Model):
     politician = models.OneToOneField(Politician)
 
     #OAuth, doesn't expire
-    consumer_key = models.CharField(max_length=50, blank=True, null=True)
-    consumer_secret = models.CharField(max_length=50, blank=True, null=True)
+    access_key = models.CharField(max_length=50, blank=True, null=True)
+    access_secret = models.CharField(max_length=50, blank=True, null=True)
 
     def __unicode__(self):
         return self.handle
