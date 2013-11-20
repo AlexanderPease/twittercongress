@@ -154,15 +154,22 @@ class Twitter(models.Model):
         return self.handle
 
 
-''' Twitter account held by FTV. '''
+''' Twitter account held by FTV '''
 class Twitter_FTV(models.Model):
     user_id = models.IntegerField(blank=True, null=True) # Static user id number for the account. NEED TO FILL IN
     handle = models.CharField(max_length=15, blank=True, null=True) # Max length of twitter handle
+    # password for twitter is Chopin1.618
     politician = models.OneToOneField(Politician)
 
-    #OAuth, doesn't expire
+    # OAuth, doesn't expire
     access_key = models.CharField(max_length=50, blank=True, null=True)
     access_secret = models.CharField(max_length=50, blank=True, null=True)
+
+    # Email
+    email = models.CharField(max_length=50, blank=True, null=True)
+    email_password = models.CharField(max_length=50, blank=True, null=True)
+    
+
 
     def __unicode__(self):
         return self.handle
@@ -185,6 +192,8 @@ class Twitter_FTV(models.Model):
         except:
             print 'Failed to post status (tweet)'
             return 
+
+
 
 
 

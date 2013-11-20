@@ -68,7 +68,10 @@ def index(request):
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
 
 def scratch():
-    #ftv = Twitter_FTV.objects.create(handle="test", politician_id=1)
+    ftv = Twitter_FTV.objects.create(handle="FTV_SenSchumer", 
+                                    politician_id=522, 
+                                    email='followthevote+NYSen1@gmail.com', 
+                                    email_password='ftvNYSen1divadublin') 
     # Sunlight
     votes = congress.votes(year=2013, chamber="house", number=7, fields="voter_ids")
     vote = votes[0] # only one vote (b/c only one bill in the query)
