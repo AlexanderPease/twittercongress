@@ -8,30 +8,40 @@
   {% if error %}
     {{ error }}</br>
   {% endif %}
-  <form method="post" action="">{% csrf_token %}
-    {% if votes %}
-      <ul>
-      {% for vote in votes %}
-        <li>
-          <a href="{{ vote.url }}" target="_blank">{{ vote.question }}</a></br>
-          Roll ID: {{ vote.roll_id }}</br>
-          Bill ID: {{ vote.bill_id }}</br>
-          Chamber: {{ vote.chamber|capfirst }}</br>
-          Voted at: {{ vote.voted_at }}</br>
-          Result: {{ vote.result }}</br>
-        </li>
-      {% endfor %}
-      </ul>
-    {% endif %}
+ 
+  {% if votes %}
+    <ul>
+    {% for vote in votes %}
+      <li>
+        <a href="{{ vote.url }}" target="_blank">{{ vote.question }}</a></br>
+        Roll ID: {{ vote.roll_id }}</br>
+        Bill ID: {{ vote.bill_id }}</br>
+        Chamber: {{ vote.chamber|capfirst }}</br>
+        Voted at: {{ vote.voted_at }}</br>
+        Result: {{ vote.result }}</br>
+        
+        <!-- Inputs pass on vote info to tweet page -->
+        <form method="get" action="/tweet">
+          {% for k, v in vote.items %}
+            <input type="hidden" name="{{ k }}" value="{{ v }}">
+          {% endfor %}
+          <button type="submit" class="btn btn-primary">Tweet</button>
+        </form>
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
 
+  </br>
 
-    </br>
-
-    {% if form %}
-      {{ form.as_table }} 
-      </br>
-      <button type="submit" class="btn btn-primary">Search</button>
-    {% endif %}
-  </form>
+  {% if form %}
+    <form method="post" action="">{% csrf_token %}
+      {% if form %}
+        {{ form.as_table }} 
+        </br>
+        <button type="submit" class="btn btn-primary">Search</button>
+      {% endif %}
+    </form>
+  {% endif %}
 
 {% endblock %}

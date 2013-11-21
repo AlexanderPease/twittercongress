@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block body %}
+  {% if message %}
+    <h4>{{ message }}</h4>
+  {% endif %}
+
+  {% if error %}
+    {{ error }}</br>
+  {% endif %}
+ 
+  Tweet
+  
+  {% if form %}
+    <form method="post" action="">{% csrf_token %}
+      {% if form %}
+        {{ form.as_table }} 
+        </br>
+        <button type="submit" class="btn btn-primary">Search</button>
+      {% endif %}
+    </form>
+  {% endif %}
+
+{% endblock %}

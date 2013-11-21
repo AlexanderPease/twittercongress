@@ -82,16 +82,18 @@ def votes(request):
                 return render_to_response('votes.html', {'error': error, 'form': form}, context_instance=RequestContext(request))
             if len(votes) > 1:
                 message = 'Found %s results, please choose the correct one:' % len(votes)
-                return render_to_response('votes.html', {'message': message, 'votes': votes}, context_instance=RequestContext(request))
             else:
                 message = 'Please confirm that this is the correct votes'
-                return render_to_response('votes.html', {'message': message, 'votes': votes}, context_instance=RequestContext(request))
-            
             return render_to_response('votes.html', {'message': message, 'votes': votes}, context_instance=RequestContext(request))
     else:
         form = VotesForm() # An unbound form
         message = 'What shall we tweet about? Search the Congressional Archives'
         return render_to_response('votes.html', {'form': form, 'message': message}, context_instance=RequestContext(request))
+
+''' Handles actual tweeting from Twitter_FTV accounts '''
+def tweet(request):
+    print request.GET.get('congress')
+    return render_to_response('tweet.html', context_instance=RequestContext(request))
 
 ''' Scratch work '''
 def scratch(request):
