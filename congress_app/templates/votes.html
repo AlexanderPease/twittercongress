@@ -1,16 +1,37 @@
 {% extends "base.html" %}
 
 {% block body %}
-<h4>What shall we tweet about?</h4>
-
-<form method="post" action="">{% csrf_token %}
-  {{ message }}
-
-  {% if form %}
-    {{ form.as_table }} 
-    </br>
-    <button type="submit" class="btn btn-primary">Search</button>
+  {% if message %}
+    <h4>{{ message }}</h4>
   {% endif %}
-</form>
+
+  {% if error %}
+    {{ error }}</br>
+  {% endif %}
+  <form method="post" action="">{% csrf_token %}
+    {% if votes %}
+      <ul>
+      {% for vote in votes %}
+        <li>
+          <a href="{{ vote.url }}" target="_blank">{{ vote.question }}</a></br>
+          Roll ID: {{ vote.roll_id }}</br>
+          Bill ID: {{ vote.bill_id }}</br>
+          Chamber: {{ vote.chamber|capfirst }}</br>
+          Voted at: {{ vote.voted_at }}</br>
+          Result: {{ vote.result }}</br>
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+
+
+    </br>
+
+    {% if form %}
+      {{ form.as_table }} 
+      </br>
+      <button type="submit" class="btn btn-primary">Search</button>
+    {% endif %}
+  </form>
 
 {% endblock %}
