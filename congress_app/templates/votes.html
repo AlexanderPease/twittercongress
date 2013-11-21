@@ -4,9 +4,13 @@
 <h4>What shall we tweet about?</h4>
 
 <form method="post" action="">{% csrf_token %}
-  {{ form.as_table }} 
-  </br>
-  <button type="submit" class="btn btn-primary">Search</button>
+  {{ message }}
+
+  {% if form %}
+    {{ form.as_table }} 
+    </br>
+    <button type="submit" class="btn btn-primary">Search</button>
+  {% endif %}
 </form>
 
 {% endblock %}

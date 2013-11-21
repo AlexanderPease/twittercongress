@@ -205,7 +205,7 @@ class VotesForm(forms.Form):
     year = forms.IntegerField(required=False)
     congress = forms.IntegerField(required=False)
 
-    CHAMBERS = (('senate', 'Senate',), ('house', 'House',))
+    CHAMBERS = (('', '---'), ('senate', 'Senate',), ('house', 'House',))
     chamber = forms.ChoiceField(widget=forms.Select, choices=CHAMBERS, required=False)
 
     # Fields from Sunlight not currently implemented
