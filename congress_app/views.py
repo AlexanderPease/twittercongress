@@ -66,29 +66,22 @@ def index(request):
 def votes(request):
     if request.method == 'POST': # If the form has been submitted...
         form = VotesForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-            roll_id = form.cleaned_data['roll_id']
-            number = form.cleaned_data['number']
-            year = form.cleaned_data['year']
-            congress_nmuber = form.cleaned_data['congress']
-            chamber = form.cleaned_data['chamber']
+        if form.is_valid():
+            # Sunlight API pukes on null args, so sanitize
+            kwargs = {}
+            for k, v in form.cleaned_data.items():
+                if v:
+                    kwargs[k] = v
 
             # Query Sunlight API
-            '''votes = congress.votes(roll_id=roll_id,
-                                    number=number,
-                                    year=year,
-                                    congress=congress,
-                                    chamber=chamber)
-            '''
-            votes = congress.votes(year=2013, chamber="house", number=7, fields="voter_ids")
-            print votes
-
-            message = "Success"
+            votes = congress.votes(**kwargs)
+            
+            #votes = congress.votes(year=2013, chamber="house", number=7, fields="voter_ids")
+            message = votes
             return render_to_response('votes.html', {'message': message}, context_instance=RequestContext(request))
     else:
         form = VotesForm() # An unbound form
     return render_to_response('votes.html', {'form': form}, context_instance=RequestContext(request))
-    #return render_to_response('votes.html', context_instance=RequestContext(request))
 
 ''' Scratch work '''
 def scratch(request):
