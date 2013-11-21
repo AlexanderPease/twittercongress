@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings #for STATIC_URL
+from django import forms
 import os
 from sunlight import congress
 import constants # for full state names
@@ -192,6 +193,39 @@ class Twitter_FTV(models.Model):
         except:
             print 'Failed to post status (tweet)'
             return 
+
+##################################################################################
+# Form Models
+##################################################################################
+
+''' Used to query Sunlight API about votes '''
+class VotesForm(forms.Form): 
+    roll_id = forms.CharField(max_length=200, required=False)
+    number = forms.IntegerField(required=False)
+    year = forms.IntegerField(required=False)
+    congress = forms.IntegerField(required=False)
+
+    CHAMBERS = (('senate', 'Senate',), ('house', 'House',))
+    chamber = forms.ChoiceField(widget=forms.Select, choices=CHAMBERS, required=False)
+
+    # Fields from Sunlight not currently implemented
+    #question = forms.CharField(max_length=300, required=False) # Does this have to be exact match?
+    #"voted_at": "2013-01-04T16:22:00Z",
+    #"vote_type": "passage". Valid types are "passage", "cloture", "nomination", "impeachment", "treaty", "recommit", "quorum", "leadership", and "other"
+    # "roll_type": "On Motion to Suspend the Rules and Pass". The official description of the type of vote. 
+    #"required": "2/3",
+
+
+
+'''class VotesForm(ModelForm):
+    class Meta:
+        model = Company
+        
+        #Is this even being used?
+        def __init__(self, *args, **kwargs):
+            super(CompanyForm, self).__init__(*args, **kwargs)
+            self.fields['date'].widget = widgets.AdminDateWidget()
+'''
 
 
 

@@ -3,7 +3,7 @@
 from django.shortcuts import render_to_response #get_object_or_404,
 from django.template import Context, RequestContext, loader
 from django.conf import settings #for STATIC_URL
-from congress_app.models import Politician, Twitter, Twitter_FTV
+from congress_app.models import Politician, Twitter, Twitter_FTV, VotesForm
 
 #Outside imports
 import os.path
@@ -14,11 +14,12 @@ import re #regular expressions
 import twitter # bear/python-twitter
 
 def index(request):
-    scratch()
-
-
     zip_code = request.GET.get('zip_code')
     address = request.GET.get('address')
+
+    # If no zip code or address argument, then return the basic homepage
+    if not zip_code and not address:
+        return render_to_response('index.html', context_instance=RequestContext(request))
 
     # Address takes precedence over ZIP code for finding legislators
     # User is only asked for address if ZIP code contains multiple districts
@@ -41,11 +42,6 @@ def index(request):
 
     # ZIP code method
     else:
-        #district = district_for_zip_code(zip_code, request) 
-            # Is there a zip_code arg? If not, return home page
-        if not zip_code:
-            return render_to_response('index.html', context_instance=RequestContext(request))
-
         districts = congress_deprecated.districts_for_zip(zip_code)
         # Test if zip_code is valid
         regex = re.compile('\d{5,5}')
@@ -68,17 +64,26 @@ def index(request):
 
 ''' Pages for deciding on which votes to tweet about '''
 def votes(request):
-    return render_to_response('votes.html', context_instance=RequestContext(request))
+    if request.method == 'POST': # If the form has been submitted...
+        form = VotesForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            # ...
+            return HttpResponseRedirect('/thanks/') # Redirect after POST
+    else:
+        form = VotesForm() # An unbound form
+    return render_to_response('votes.html', {'form': form}, context_instance=RequestContext(request))
+    #return render_to_response('votes.html', context_instance=RequestContext(request))
 
-
-def scratch():
+''' Scratch work '''
+def scratch(request):
     '''
     ftv = Twitter_FTV.objects.create(handle="FTV_SenSchumer", 
                                     politician_id=522, 
                                     email='followthevote+NYSen1@gmail.com', 
                                     email_password='ftvNYSen1divadublin') 
     '''
-    
+
     # Sunlight
     votes = congress.votes(year=2013, chamber="house", number=7, fields="voter_ids")
     vote = votes[0] # only one vote (b/c only one bill in the query)
@@ -104,3 +109,4 @@ def scratch():
     #print status.text
 
     #Politician.generate_FTV_twitter()
+    return render_to_response('base.html', context_instance=RequestContext(request))

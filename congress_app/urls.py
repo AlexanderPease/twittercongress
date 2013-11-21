@@ -3,5 +3,7 @@ from congress_app import views
 
 urlpatterns = patterns('congress_app.views',
     url(r'^votes/$', views.votes),
+    url(r'^scratch/$', views.scratch),
+
     url(r'^$', views.index),
 )
