@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FollowTheVote.org</title>
+  <!-- Bootstrap --> 
+  <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+
+  <!-- Custom CSS for Twitter Congress -->
+  <link href="{{ STATIC_URL }}css/twittercongress.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+  <div class="container-narrow">
+
+      {% block header %}
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="mailto:alexander@usv.com">Contact</a></li>
+        </ul>
+        <h3 class="muted">FollowTheVote.org</h3>
+      </div>
+
+      <hr>
+      {% endblock %}
+
+      {% block body %}
+
+      {% endblock %}
+      
+      {% block footer %}
+      <div class="footer">
+        <img id="footer_logo" src="{{ STATIC_URL }}img/sunlight_logo.gif" alt="Powered by the Sunlight Foundation">
+      </div>
+      {% endblock %}
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/bootstrap-transition.js"></script>
+    <script src="../assets/js/bootstrap-alert.js"></script>
+    <script src="../assets/js/bootstrap-modal.js"></script>
+    <script src="../assets/js/bootstrap-dropdown.js"></script>
+    <script src="../assets/js/bootstrap-scrollspy.js"></script>
+    <script src="../assets/js/bootstrap-tab.js"></script>
+    <script src="../assets/js/bootstrap-tooltip.js"></script>
+    <script src="../assets/js/bootstrap-popover.js"></script>
+    <script src="../assets/js/bootstrap-button.js"></script>
+    <script src="../assets/js/bootstrap-collapse.js"></script>
+    <script src="../assets/js/bootstrap-carousel.js"></script>
+    <script src="../assets/js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>

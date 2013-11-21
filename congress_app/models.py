@@ -158,7 +158,7 @@ class Twitter(models.Model):
 class Twitter_FTV(models.Model):
     user_id = models.IntegerField(blank=True, null=True) # Static user id number for the account. NEED TO FILL IN
     handle = models.CharField(max_length=15, blank=True, null=True) # Max length of twitter handle
-    # password for twitter is Chopin1.618
+    # password for @SenSChumer is Chopin1.618 Make it equal to email_password?
     politician = models.OneToOneField(Politician)
 
     # OAuth, doesn't expire

@@ -13,7 +13,6 @@ from pprint import pprint
 import re #regular expressions
 import twitter # bear/python-twitter
 
-
 def index(request):
     scratch()
 
@@ -67,11 +66,19 @@ def index(request):
     legislators = {'representative': representative, 'senator1':senators[0], 'senator2':senators[1]}
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
 
+''' Pages for deciding on which votes to tweet about '''
+def votes(request):
+    return render_to_response('votes.html', context_instance=RequestContext(request))
+
+
 def scratch():
+    '''
     ftv = Twitter_FTV.objects.create(handle="FTV_SenSchumer", 
                                     politician_id=522, 
                                     email='followthevote+NYSen1@gmail.com', 
                                     email_password='ftvNYSen1divadublin') 
+    '''
+    
     # Sunlight
     votes = congress.votes(year=2013, chamber="house", number=7, fields="voter_ids")
     vote = votes[0] # only one vote (b/c only one bill in the query)
