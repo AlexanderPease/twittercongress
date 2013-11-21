@@ -92,8 +92,20 @@ def votes(request):
 
 ''' Handles actual tweeting from Twitter_FTV accounts '''
 def tweet(request):
+    if request.method == 'POST': # If the form has been submitted...
+        print 'form submitted'
+
     print request.GET.get('congress')
-    return render_to_response('tweet.html', context_instance=RequestContext(request))
+    question = request.GET.get('question')
+
+    # First 16 chars of tweet are reserved for the politicians handle, ex. @SenSchumer
+    tweet = "[@SenSchumer] voted [Yes/No] on %s" % question
+
+    for politician in Politician.objects.all():
+        if politician.twitter_ftv:
+            print "%s: %s" % (politician, politician.twitter_ftv)
+
+    return render_to_response('tweet.html', {'tweet': tweet}, context_instance=RequestContext(request))
 
 ''' Scratch work '''
 def scratch(request):
