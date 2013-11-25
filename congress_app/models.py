@@ -215,7 +215,9 @@ class VotesForm(forms.Form):
     # "roll_type": "On Motion to Suspend the Rules and Pass". The official description of the type of vote. 
     #"required": "2/3",
 
-
+''' Used to ensure tweet parameters are met '''
+class TweetForm(forms.Form): 
+    text = forms.CharField(max_length=111, required=True, widget=forms.Textarea)
 
 '''class VotesForm(ModelForm):
     class Meta:

@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response #get_object_or_404,
 from django.template import Context, RequestContext, loader
 from django.conf import settings #for STATIC_URL
 from django.forms.models import model_to_dict
-from congress_app.models import Politician, Twitter, Twitter_FTV, VotesForm
+from congress_app.models import Politician, Twitter, Twitter_FTV, VotesForm, TweetForm
 
 #Outside imports
 import os.path
@@ -80,46 +80,66 @@ def votes(request):
             # Post-query logic
             if not votes:
                 error = 'No search results, try again'
-                return render_to_response('votes.html', {'error': error, 'form': form}, context_instance=RequestContext(request))
+                return render_to_response('votes.html', {'error': error, 'form': form}, 
+                    context_instance=RequestContext(request))
             if len(votes) > 1:
                 message = 'Found %s results, please choose the correct one:' % len(votes)
             else:
                 message = 'Please confirm that this is the correct votes'
-            return render_to_response('votes.html', {'message': message, 'votes': votes}, context_instance=RequestContext(request))
+            return render_to_response('votes.html', {'message': message, 'votes': votes}, 
+                context_instance=RequestContext(request))
     else:
         form = VotesForm() # An unbound form
         message = 'What shall we tweet about? Search the Congressional Archives'
-        return render_to_response('votes.html', {'form': form, 'message': message}, context_instance=RequestContext(request))
+        return render_to_response('votes.html', {'form': form, 'message': message}, 
+            context_instance=RequestContext(request))
 
 ''' Handles actual tweeting from Twitter_FTV accounts '''
 def tweet(request):
+    vote = request.GET # assumes request comes from votes(request)
+    reps_account_placeholder = "@[representative's account]"
+    choice_placeholder = '[yes/no]'
+    tweet_beginning = "%s voted %s on " % (reps_account_placeholder, choice_placeholder)
+
     if request.method == 'POST': # If the form has been submitted...
-        print 'form submitted'
+        form = TweetForm(request.POST)
+        print request.GET
+        print "post below"
+        print request.POST
+        if form.is_valid():
+            # Create base tweet
+            tweet_text = form.cleaned_data['text']
+            tweet = tweet_beginning + tweet_text
+            print tweet
 
-    question = request.GET.get('question')
+            # Double check tweet is not too long
+            if len(tweet) <= 140:
+                
+                for twitter_ftv in Twitter_FTV.objects.get(): #Twitter_FTV.objects.all().exclude(handle="FollowTheVote"):
+                    politician = twitter_ftv.politician
+                    kwargs[politician.id] = model_to_dict(politician)
+                return render_to_response('base.html', {'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
+            context_instance=RequestContext(request))
 
-    # Put together the tweets for each politician
-    kwargs = {}
-    for twitter_ftv in Twitter_FTV.objects.all().exclude(handle="FollowTheVote"):
-        politician = twitter_ftv.politician
-        kwargs[politician.id] = model_to_dict(politician)
-
-        tweet = "@%s voted %s on %s" % (politician.twitter.handle, 'yes', question) #FIGURE OUT VOTE
-        #politician.title + '. ' + politician.first_name + ' ' + politician.last_name + '(' + politician.party + ')'
-        # {'500': {'name': 'foo', 'boom': 'phoo'}}
-    print kwargs
-
-    politicians = Politician.objects.all()
-    return render_to_response('tweet.html', {'politicians': politicians}, context_instance=RequestContext(request))
+        # If submitted tweet was too long
+        error = 'Tweet was too long! Try again!'
+        return render_to_response('tweet.html', {'error': error, 'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
+            context_instance=RequestContext(request))
+    else:
+        form = TweetForm()
+        return render_to_response('tweet.html', {'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
+            context_instance=RequestContext(request))
 
 ''' Scratch work '''
 def scratch(request):
+    politician = Politician.objects.create(first_name="test2", last_name="test2", state="TT", district="test", party="T", title="test")
+
+    '''ftv = Twitter_FTV.objects.create(handle="FTV_testaccount", 
+                                    politician_id=politician.id, 
+                                    email='followthevote+testaccount@gmail.com', 
+                                    email_password='ftvtestaccount')
     '''
-    ftv = Twitter_FTV.objects.create(handle="FTV_SenSchumer", 
-                                    politician_id=522, 
-                                    email='followthevote+NYSen1@gmail.com', 
-                                    email_password='ftvNYSen1divadublin') 
-    '''
+    
 
     # Sunlight
     votes = congress.votes(year=2013, chamber="house", number=7, fields="voter_ids")
