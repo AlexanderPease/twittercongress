@@ -9,7 +9,27 @@
     {{ error }}</br>
   {% endif %}
  
-  {{ tweet }}
+{{ dictionary }}
+
+  {% for dict in dictionary.get_fields.items %}
+    {{ dict.name }}
+  {% endfor %}
+
+  {% for dict in dictionary.items %}
+    {{ dict.name }}
+  {% endfor %}
+
+  {{ 500.name }}
+
+  {{ first_name }}fafa
+
+  {{ test.first_name }}lala
+
+  politicians:
+  {% for politician in politicians %}
+    {{ politician.last_name }}
+  {% endfor %}
+
   
   {% if form %}
     <form method="post" action="">{% csrf_token %}

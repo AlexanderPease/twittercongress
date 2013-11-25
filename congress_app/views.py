@@ -3,6 +3,7 @@
 from django.shortcuts import render_to_response #get_object_or_404,
 from django.template import Context, RequestContext, loader
 from django.conf import settings #for STATIC_URL
+from django.forms.models import model_to_dict
 from congress_app.models import Politician, Twitter, Twitter_FTV, VotesForm
 
 #Outside imports
@@ -62,7 +63,7 @@ def index(request):
     legislators = {'representative': representative, 'senator1':senators[0], 'senator2':senators[1]}
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
 
-''' Pages for deciding on which votes to tweet about '''
+''' Pages for deciding which votes to tweet about '''
 def votes(request):
     if request.method == 'POST': # If the form has been submitted...
         form = VotesForm(request.POST) # A form bound to the POST data
@@ -95,17 +96,21 @@ def tweet(request):
     if request.method == 'POST': # If the form has been submitted...
         print 'form submitted'
 
-    print request.GET.get('congress')
     question = request.GET.get('question')
 
-    # First 16 chars of tweet are reserved for the politicians handle, ex. @SenSchumer
-    tweet = "[@SenSchumer] voted [Yes/No] on %s" % question
+    # Put together the tweets for each politician
+    kwargs = {}
+    for twitter_ftv in Twitter_FTV.objects.all().exclude(handle="FollowTheVote"):
+        politician = twitter_ftv.politician
+        kwargs[politician.id] = model_to_dict(politician)
 
-    for politician in Politician.objects.all():
-        if politician.twitter_ftv:
-            print "%s: %s" % (politician, politician.twitter_ftv)
+        tweet = "@%s voted %s on %s" % (politician.twitter.handle, 'yes', question) #FIGURE OUT VOTE
+        #politician.title + '. ' + politician.first_name + ' ' + politician.last_name + '(' + politician.party + ')'
+        # {'500': {'name': 'foo', 'boom': 'phoo'}}
+    print kwargs
 
-    return render_to_response('tweet.html', {'tweet': tweet}, context_instance=RequestContext(request))
+    politicians = Politician.objects.all()
+    return render_to_response('tweet.html', {'politicians': politicians}, context_instance=RequestContext(request))
 
 ''' Scratch work '''
 def scratch(request):
