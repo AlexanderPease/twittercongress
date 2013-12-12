@@ -181,13 +181,13 @@ class Twitter_FTV(models.Model):
         return self.handle
 
     ''' Login to twitter. Returns api instance '''
-        def login(self, message):
-            try:
-                api = twitter.Api(consumer_key=TWITTER_CONSUMER_KEY,
-                            consumer_secret=TWITTER_CONSUMER_SECRET,
-                            access_token_key=self.access_key,
-                            access_token_secret=self.access_secret)
-                return api
+    def login(self, message):
+        try:
+            api = twitter.Api(consumer_key=TWITTER_CONSUMER_KEY,
+                        consumer_secret=TWITTER_CONSUMER_SECRET,
+                        access_token_key=self.access_key,
+                        access_token_secret=self.access_secret)
+            return api
         except:
             print '@%s failed to authenticate with API' % self.handle
             print api.VerifyCredentials()

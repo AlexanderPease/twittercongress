@@ -25,12 +25,14 @@ import oauth2 as oauth
 
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "twittercongress.settings")
-from congress_app.models import Twitter_FTV
+from congress_app.models import Twitter_FTV, Politician
 
 REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
 ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
 AUTHORIZATION_URL = 'https://api.twitter.com/oauth/authorize'
 SIGNIN_URL = 'https://api.twitter.com/oauth/authenticate'
+CONSUMER_KEY = 'hNxtR1bjU2QnJqQZYftUzA'
+CONSUMER_SECRET = 'nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4'
 
 ''' Gets access key and token for the Twitter user currently logged into default browser '''
 def get_access_token(consumer_key, consumer_secret):
@@ -81,32 +83,58 @@ def get_access_token(consumer_key, consumer_secret):
             print ''
             return access_token['oauth_token'], access_token['oauth_token_secret']
 
-
-
 def main():
-    # Check to see if Twitter_FTV model exists
+    # Check to see if Twitter_FTV model exists, or else create
     handle = raw_input('Twitter_FTV handle: ')
     try:
         twitter_ftv = Twitter_FTV.objects.get(handle=handle)
     except:
-        print 'This model does not exist yet. Please create the model first before OAuth'
-        return 
+        # Identify desired politician to link account to
+        print "Model does not yet exist. Please enter additional info to create:"
+        last_name = raw_input('Last name of politician: ')
+        politicians = Politician.objects.filter(last_name__contains=last_name)
+        if len(politicians) == 0:
+            print "No politicians found, please try again"
+            return
+        elif len(politicians) == 1:
+            p_id = politicians[0].id
+        else:  
+            for p in politicians:
+                print "%s %s: ID %s" % (p.first_name, p.last_name, p.id)
+            p_id = raw_input('ID of correct politician (see above): ')
 
-    # Credentials for this app
-    consumer_key = 'hNxtR1bjU2QnJqQZYftUzA'
-    consumer_secret = 'nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4'
+        # Finally create the account
+        try: 
+            print p_id
+            twitter_ftv = Twitter_FTV.objects.create(handle=handle, politician_id=p_id)
+            print 'Model successfully created'
+        except:
+            'Model could not be created'
+            return
+
+    
+    # Check for other, non-necessary fields
+    if not twitter_ftv.email:
+        email = raw_input('Email address (return to bypass): ')
+        twitter_ftv.email = email
+    if not twitter_ftv.email_password:
+        email_password = raw_input('Password (return to bypass): ')
+        twitter_ftv.email_password = email_password
+    twitter_ftv.save()
 
     # OAuth
+    print 'Connecting to Twitter'
     if not consumer_key: 
         consumer_key = raw_input('Enter your consumer key: ')
     if not consumer_secret:
         consumer_secret = raw_input("Enter your consumer secret: ")
     access_key, access_secret = get_access_token(consumer_key, consumer_secret)
-
-    # Create Twitter_FTV model
     twitter_ftv.access_key = access_key
     twitter_ftv.access_secret = access_secret
-    print 'Success!'
+    twitter_ftv.save()
+
+    # TODO: get twitter account id
+    print 'Model successfully authed with Twitter!'
 
 
 if __name__ == "__main__":
