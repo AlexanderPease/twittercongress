@@ -114,10 +114,17 @@ def tweet(request):
 
             # Double check tweet is not too long
             if len(tweet) <= 140:
-                
-                for twitter_ftv in Twitter_FTV.objects.get(): #Twitter_FTV.objects.all().exclude(handle="FollowTheVote"):
+                # Get actual votes from Sunlight
+
+                for twitter_ftv in Twitter_FTV.objects.get(handle="FTV_testaccount"): #Twitter_FTV.objects.all().exclude(handle="FollowTheVote"):
                     politician = twitter_ftv.politician
-                    kwargs[politician.id] = model_to_dict(politician)
+
+                    # Insert actual Twitter account and vote into tweet
+                    tweet = tweet
+
+                    #Tweet!
+                    twitter_ftv.tweet(tweet)
+
                 return render_to_response('base.html', {'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
             context_instance=RequestContext(request))
 
@@ -132,8 +139,8 @@ def tweet(request):
 
 ''' Scratch work '''
 def scratch(request):
-    politician = Politician.objects.create(first_name="test2", last_name="test2", state="TT", district="test", party="T", title="test")
-
+    
+    #politician = Politician.objects.create(first_name="test2", last_name="test2", state="TT", district="test", party="T", title="test")
     '''ftv = Twitter_FTV.objects.create(handle="FTV_testaccount", 
                                     politician_id=politician.id, 
                                     email='followthevote+testaccount@gmail.com', 

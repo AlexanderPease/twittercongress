@@ -154,11 +154,16 @@ class Twitter(models.Model):
     def __unicode__(self):
         return self.handle
 
+    # TODO
+    @classmethod
+    def get_twitter_ids(cls):
+        return 'foo'
+
 
 ''' Twitter account held by FTV '''
 class Twitter_FTV(models.Model):
     user_id = models.IntegerField(blank=True, null=True) # Static user id number for the account. NEED TO FILL IN
-    handle = models.CharField(max_length=15, blank=True, null=True) # Max length of twitter handle
+    handle = models.CharField(max_length=15, blank=True, null=True) # Max length of twitter handle (16 including @)
     # password for @SenSChumer is Chopin1.618 Make it equal to email_password?
     politician = models.OneToOneField(Politician, related_name='twitter_ftv')
 
@@ -175,23 +180,36 @@ class Twitter_FTV(models.Model):
     def __unicode__(self):
         return self.handle
 
+    ''' Login to twitter. Returns api instance '''
+        def login(self, message):
+            try:
+                api = twitter.Api(consumer_key=TWITTER_CONSUMER_KEY,
+                            consumer_secret=TWITTER_CONSUMER_SECRET,
+                            access_token_key=self.access_key,
+                            access_token_secret=self.access_secret)
+                return api
+        except:
+            print '@%s failed to authenticate with API' % self.handle
+            print api.VerifyCredentials()
+            return 
+
     ''' Tweets message from this account '''
     def tweet(self, message):
         try:
-            api = twitter.Api(consumer_key='hNxtR1bjU2QnJqQZYftUzA',
-                        consumer_secret='nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4',
+            api = twitter.Api(consumer_key=TWITTER_CONSUMER_KEY,
+                        consumer_secret=TWITTER_CONSUMER_SECRET,
                         access_token_key=self.access_key,
                         access_token_secret=self.access_secret)
         except:
-            'Failed to authenticate with API'
+            print '@%s failed to authenticate with API' % self.handle
             print api.VerifyCredentials()
             return 
 
         try:
             status = api.PostUpdate(message)
-            print status.text
+            print '@%s posted status' % self.handle
         except:
-            print 'Failed to post status (tweet)'
+            print '@%s failed to post status (tweet)' % self.handle
             return 
 
 ##################################################################################
@@ -209,11 +227,11 @@ class VotesForm(forms.Form):
     chamber = forms.ChoiceField(widget=forms.Select, choices=CHAMBERS, required=False)
 
     # Fields from Sunlight not currently implemented
-    #question = forms.CharField(max_length=300, required=False) # Does this have to be exact match?
-    #"voted_at": "2013-01-04T16:22:00Z",
-    #"vote_type": "passage". Valid types are "passage", "cloture", "nomination", "impeachment", "treaty", "recommit", "quorum", "leadership", and "other"
+    # question = forms.CharField(max_length=300, required=False) # Does this have to be exact match?
+    # "voted_at": "2013-01-04T16:22:00Z",
+    # "vote_type": "passage". Valid types are "passage", "cloture", "nomination", "impeachment", "treaty", "recommit", "quorum", "leadership", and "other"
     # "roll_type": "On Motion to Suspend the Rules and Pass". The official description of the type of vote. 
-    #"required": "2/3",
+    # "required": "2/3",
 
 ''' Used to ensure tweet parameters are met '''
 class TweetForm(forms.Form): 

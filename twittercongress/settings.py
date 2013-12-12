@@ -177,4 +177,7 @@ LOGGING = {
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# API keys
 SUNLIGHT_API_KEY = '6beac436fa02439abfe8f27909ab3d8f'
+TWITTER_CONSUMER_KEY = 'hNxtR1bjU2QnJqQZYftUzA'
+TWITTER_CONSUMER_SECRET = 'nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4'
