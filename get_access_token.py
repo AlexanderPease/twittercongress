@@ -123,12 +123,14 @@ def main():
     twitter_ftv.save()
 
     # OAuth
-    print 'Connecting to Twitter'
+    print 'Connecting to Twitter...'
     if not twitter_ftv.access_key or not twitter_ftv.access_secret:
         access_key, access_secret = get_access_token(CONSUMER_KEY, CONSUMER_SECRET)
         twitter_ftv.access_key = access_key
         twitter_ftv.access_secret = access_secret
         twitter_ftv.save()
+    else:
+        'Already OAuthed to Twitter'
 
     # Get Twitter account id
     if not twitter_ftv.user_id:

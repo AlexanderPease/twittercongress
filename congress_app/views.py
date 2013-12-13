@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response #get_object_or_404,
 from django.template import Context, RequestContext, loader
 from django.conf import settings #for STATIC_URL
 from django.forms.models import model_to_dict
+from django.contrib.auth.decorators import login_required
 from congress_app.models import Politician, Twitter, Twitter_FTV, VotesForm, TweetForm
 
 #Outside imports
@@ -64,6 +65,7 @@ def index(request):
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
 
 ''' Pages for deciding which votes to tweet about '''
+@login_required
 def votes(request):
     if request.method == 'POST': # If the form has been submitted...
         form = VotesForm(request.POST) # A form bound to the POST data
@@ -95,6 +97,7 @@ def votes(request):
             context_instance=RequestContext(request))
 
 ''' Handles actual tweeting from Twitter_FTV accounts '''
+@login_required
 def tweet(request):
     vote = request.GET # assumes request comes from votes(request)
     reps_account_placeholder = "@[representative's account]"
@@ -138,6 +141,7 @@ def tweet(request):
             context_instance=RequestContext(request))
 
 ''' Scratch work '''
+@login_required
 def scratch(request):
     
     #politician = Politician.objects.create(first_name="test2", last_name="test2", state="TT", district="test", party="T", title="test")

@@ -136,13 +136,13 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'django.contrib.humanize',
     'congress_app',
     'south',
+    'social_auth',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -181,3 +181,21 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SUNLIGHT_API_KEY = '6beac436fa02439abfe8f27909ab3d8f'
 TWITTER_CONSUMER_KEY = 'hNxtR1bjU2QnJqQZYftUzA'
 TWITTER_CONSUMER_SECRET = 'nXVHf7tiGzVvfrGA3VRSbdvjIIt1H706tjiP9rK2o4'
+
+
+# Social_auth configuration
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/members/'
+LOGIN_ERROR_URL = '/login-error/'
+AUTHENTICATION_BACKENDS = (
+  'social_auth.backends.twitter.TwitterBackend',
+  'django.contrib.auth.backends.ModelBackend',
+)
+SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+SOCIAL_AUTH_UID_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
+SOCIAL_AUTH_NONCE_SERVER_URL_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_SERVER_URL_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
+SOCIAL_AUTH_ENABLED_BACKENDS = ('twitter')
+
