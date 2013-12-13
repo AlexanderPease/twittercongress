@@ -162,7 +162,7 @@ class Twitter(models.Model):
 
 ''' Twitter account held by FTV '''
 class Twitter_FTV(models.Model):
-    user_id = models.IntegerField(blank=True, null=True) # Static user id number for the account. NEED TO FILL IN
+    user_id = models.IntegerField(blank=True, null=True) # Static user id number for the twitter account
     handle = models.CharField(max_length=15, blank=True, null=True) # Max length of twitter handle (16 including @)
     # password for @SenSChumer is Chopin1.618 Make it equal to email_password?
     politician = models.OneToOneField(Politician, related_name='twitter_ftv')
@@ -181,29 +181,21 @@ class Twitter_FTV(models.Model):
         return self.handle
 
     ''' Login to twitter. Returns api instance '''
-    def login(self, message):
+    def login(self):
         try:
-            api = twitter.Api(consumer_key=TWITTER_CONSUMER_KEY,
-                        consumer_secret=TWITTER_CONSUMER_SECRET,
+            api = twitter.Api(consumer_key=settings.TWITTER_CONSUMER_KEY,
+                        consumer_secret=settings.TWITTER_CONSUMER_SECRET,
                         access_token_key=self.access_key,
                         access_token_secret=self.access_secret)
             return api
         except:
             print '@%s failed to authenticate with API' % self.handle
-            print api.VerifyCredentials()
             return 
 
     ''' Tweets message from this account '''
-    def tweet(self, message):
-        try:
-            api = twitter.Api(consumer_key=TWITTER_CONSUMER_KEY,
-                        consumer_secret=TWITTER_CONSUMER_SECRET,
-                        access_token_key=self.access_key,
-                        access_token_secret=self.access_secret)
-        except:
-            print '@%s failed to authenticate with API' % self.handle
-            print api.VerifyCredentials()
-            return 
+    def tweet(self, message, api=None):
+        if not api:
+            self.login()
 
         try:
             status = api.PostUpdate(message)

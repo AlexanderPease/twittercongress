@@ -78,8 +78,8 @@ def get_access_token(consumer_key, consumer_secret):
             print 'The request for a Token did not succeed: %s' % resp['status']
             print access_token
         else:
-            print 'Your Twitter Access Token key: %s' % access_token['oauth_token']
-            print '          Access Token secret: %s' % access_token['oauth_token_secret']
+            print 'Access Token key: %s' % access_token['oauth_token']
+            print 'Access Token secret: %s' % access_token['oauth_token_secret']
             print ''
             return access_token['oauth_token'], access_token['oauth_token_secret']
 
@@ -124,17 +124,20 @@ def main():
 
     # OAuth
     print 'Connecting to Twitter'
-    if not consumer_key: 
-        consumer_key = raw_input('Enter your consumer key: ')
-    if not consumer_secret:
-        consumer_secret = raw_input("Enter your consumer secret: ")
-    access_key, access_secret = get_access_token(consumer_key, consumer_secret)
-    twitter_ftv.access_key = access_key
-    twitter_ftv.access_secret = access_secret
-    twitter_ftv.save()
+    if not twitter_ftv.access_key or not twitter_ftv.access_secret:
+        access_key, access_secret = get_access_token(CONSUMER_KEY, CONSUMER_SECRET)
+        twitter_ftv.access_key = access_key
+        twitter_ftv.access_secret = access_secret
+        twitter_ftv.save()
 
-    # TODO: get twitter account id
-    print 'Model successfully authed with Twitter!'
+    # Get Twitter account id
+    if not twitter_ftv.user_id:
+        api = twitter_ftv.login()
+        user = api.GetUser(screen_name = twitter_ftv.handle) # user is a class from python-twitter
+        twitter_ftv.user_id = user.id
+        twitter_ftv.save()
+
+    print 'Model complete!'
 
 
 if __name__ == "__main__":
