@@ -86,10 +86,9 @@ def votes(request):
                     context_instance=RequestContext(request))
             if len(votes) > 1:
                 message = 'Found %s results, please choose the correct one:' % len(votes)
-
-                # TODO: returns max 50 results on first page. Give option to search further
+                # TODO: returns max 50 results on first page. Give option to search further pages
             else:
-                message = 'Please confirm that this is the correct votes'
+                message = 'Please confirm that this is the correct vote'
             return render_to_response('votes.html', {'message': message, 'votes': votes}, 
                 context_instance=RequestContext(request))
     else:
@@ -108,32 +107,54 @@ def tweet(request):
 
     if request.method == 'POST': # If the form has been submitted...
         form = TweetForm(request.POST)
-        print request.GET
-        print "post below"
-        print request.POST
-        if form.is_valid():
+        if not form.is_valid():
+            error = 'Submitted invalid tweet!'
+            return render_to_response('tweet.html', {'error': error, 'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
+                context_instance=RequestContext(request))
+        else: 
             # Create base tweet
             tweet_text = form.cleaned_data['text']
             tweet_template = tweet_beginning + tweet_text
-            print tweet_template
 
-            # Get actual votes from Sunlight
+            # Get votes for each politician from Sunlight
+            kwargs = {'fields': 'voter_ids'}
+            for k, v in request.GET.iteritems():
+                if v:
+                    kwargs[k] = v
+            individual_votes = congress.votes(**kwargs)
+            if len(individual_votes) != 1:
+                print 'Error finding votes'
+                return
+                #TODO figure out error handling or better transfer method
+            individual_votes = individual_votes[0]['voter_ids'] # returns a dict with bioguide_ids for keys
 
             # Tweet for every applicable politician
             for twitter_ftv in Twitter_FTV.objects.all().exclude(handle="FollowTheVote"):
-                politician = twitter_ftv.politician
-                print politician
+                p = twitter_ftv.politician
+                # Hierarchy of name choosing
+                if len(p.brief_name()) <= 16:
+                    name = p.brief_name()
+                elif p.twitter:
+                    name = twitter
+                elif len(p.last_name) <= 16:
+                    name = p.last_name
+                elif p.title == 'sen':
+                    name = "Senator"
+                else:
+                    name = "Representative"
 
-                # Insert actual Twitter account and vote into tweet
-                #twitter_ftv.tweet(tweet)
+                # Find corresponding vote
+                if p.portrait_id in individual_votes:
+                    choice = individual_votes[p.portrait_id]
+                    if choice == 'Yea':
+                        choice = 'YES'
+                    elif choice == 'Nay':
+                        choice == 'NO'
+                    tweet = tweet_template.replace(reps_account_placeholder, name).replace(choice_placeholder, choice)
+                    twitter_ftv.tweet(tweet)
 
             return render_to_response('base.html', {'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
         context_instance=RequestContext(request))
-
-        # If submitted tweet was too long
-        error = 'Tweet was too long! Try again!'
-        return render_to_response('tweet.html', {'error': error, 'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
-            context_instance=RequestContext(request))
     else:
         form = TweetForm()
         return render_to_response('tweet.html', {'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 

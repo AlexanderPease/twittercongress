@@ -38,6 +38,10 @@ class Politician(models.Model):
         else:
             return "Senator"
 
+    ''' Ex: Rep. Gillibrand '''
+    def brief_name(self):
+        return self.title + ". " + self.last_name
+
     ''' Returns STATIC_URL path to the portrait file. Defaults to DEFAULT.jpg '''
     def portrait_path(self):
         # Check using absolute path, pass STATIC_URL path
@@ -193,15 +197,14 @@ class Twitter_FTV(models.Model):
             return 
 
     ''' Tweets message from this account '''
-    def tweet(self, message, api=None):
+    def tweet(self, status, api=None):
         if not api:
-            self.login()
-
+            api = self.login()
         try:
-            status = api.PostUpdate(message)
+            status = api.PostUpdate(status)
             print '@%s posted status' % self.handle
         except:
-            print '@%s failed to post status (tweet)' % self.handle
+            print '@%s FAILED to post status: %s' % (self.handle, status)
             return 
 
 ##################################################################################

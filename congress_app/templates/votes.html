@@ -21,7 +21,7 @@
         Result: {{ vote.result }}</br>
         
         <!-- Inputs pass on vote info to tweet page -->
-        <form method="get" action="/tweet">
+        <form method="GET" action="/tweet">
           {% for k, v in vote.items %}
             <input type="hidden" name="{{ k }}" value="{{ v }}">
           {% endfor %}
