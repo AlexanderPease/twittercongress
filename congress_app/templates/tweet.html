@@ -12,13 +12,16 @@
   {% if form %}
     <h4>Complete the tweet!</h4>
 
-    {{ tweet_beginning }}...
+    <div id="tweet_beginning">
+      {{ tweet_beginning }}...
+    </div>
     <form method="post" action="">{% csrf_token %}
       {{ form.non_field_errors }}
       <div class="fieldWrapper">
           {{ form.text }}
           {{ form.text.errors }}
       </div>
+      <span id="tweet_counter"></span>
       </br>
       <button type="submit" class="btn btn-primary">Tweet</button>
     </form>
@@ -33,4 +36,34 @@
         
   {% endif %}
 
+{% endblock %}
+
+{% block javascript %}
+  <script>
+    $(document).ready(function() {  
+      // Track changes in tweet text box
+      tweet_counter();
+      $('#id_text').on('input', function () {
+        tweet_counter();
+      });
+
+    }); //$(document).ready();
+
+    function tweet_counter() {
+      max_length = 140;
+      tweet_beginning = $("#tweet_beginning")
+      tweet_input = $('#id_text').val();
+      tweet = tweet_beginning + tweet_input
+      char_remaining = max_length - tweet.length;
+      $('#tweet_counter').text(char_remaining + " characters left");
+      
+      // styling
+      if (char_remaining < 0) {
+        $('#tweet_counter').css("color", "red");
+      }
+      else{
+        $('#tweet_counter').css("color", "black");
+      }
+    }
+  </script>
 {% endblock %}

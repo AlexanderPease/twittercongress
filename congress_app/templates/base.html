@@ -2,10 +2,13 @@
 <html>
 <head>
   <title>FollowTheVote.org</title>
+
+  <!-- jQuery -->
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
   <!-- Bootstrap --> 
   <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
   <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-
   <!-- Custom CSS for Twitter Congress -->
   <link href="{{ STATIC_URL }}css/twittercongress.css" rel="stylesheet" type="text/css" />
 
@@ -39,22 +42,7 @@
 
     </div> <!-- /container -->
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/bootstrap-transition.js"></script>
-    <script src="../assets/js/bootstrap-alert.js"></script>
-    <script src="../assets/js/bootstrap-modal.js"></script>
-    <script src="../assets/js/bootstrap-dropdown.js"></script>
-    <script src="../assets/js/bootstrap-scrollspy.js"></script>
-    <script src="../assets/js/bootstrap-tab.js"></script>
-    <script src="../assets/js/bootstrap-tooltip.js"></script>
-    <script src="../assets/js/bootstrap-popover.js"></script>
-    <script src="../assets/js/bootstrap-button.js"></script>
-    <script src="../assets/js/bootstrap-collapse.js"></script>
-    <script src="../assets/js/bootstrap-carousel.js"></script>
-    <script src="../assets/js/bootstrap-typeahead.js"></script>
+    {% block javascript %}{% endblock %}
 
   </body>
 </html>

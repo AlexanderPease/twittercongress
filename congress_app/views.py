@@ -65,13 +65,13 @@ def index(request):
     return render_to_response('results.html', {'results': legislators}, context_instance=RequestContext(request))
 
 ''' Pages for deciding which votes to tweet about '''
-@login_required
+#@login_required
 def votes(request):
     if request.method == 'POST': # If the form has been submitted...
         form = VotesForm(request.POST) # A form bound to the POST data
         if form.is_valid():
             # Sunlight API pukes on null args, so sanitize
-            kwargs = {}
+            kwargs = {'per_page': 50}
             for k, v in form.cleaned_data.items():
                 if v:
                     kwargs[k] = v
@@ -86,6 +86,8 @@ def votes(request):
                     context_instance=RequestContext(request))
             if len(votes) > 1:
                 message = 'Found %s results, please choose the correct one:' % len(votes)
+
+                # TODO: returns max 50 results on first page. Give option to search further
             else:
                 message = 'Please confirm that this is the correct votes'
             return render_to_response('votes.html', {'message': message, 'votes': votes}, 
@@ -97,7 +99,7 @@ def votes(request):
             context_instance=RequestContext(request))
 
 ''' Handles actual tweeting from Twitter_FTV accounts '''
-@login_required
+#@login_required
 def tweet(request):
     vote = request.GET # assumes request comes from votes(request)
     reps_account_placeholder = "@[representative's account]"
@@ -112,24 +114,21 @@ def tweet(request):
         if form.is_valid():
             # Create base tweet
             tweet_text = form.cleaned_data['text']
-            tweet = tweet_beginning + tweet_text
-            print tweet
+            tweet_template = tweet_beginning + tweet_text
+            print tweet_template
 
-            # Double check tweet is not too long
-            if len(tweet) <= 140:
-                # Get actual votes from Sunlight
+            # Get actual votes from Sunlight
 
-                for twitter_ftv in Twitter_FTV.objects.get(handle="FTV_testaccount"): #Twitter_FTV.objects.all().exclude(handle="FollowTheVote"):
-                    politician = twitter_ftv.politician
+            # Tweet for every applicable politician
+            for twitter_ftv in Twitter_FTV.objects.all().exclude(handle="FollowTheVote"):
+                politician = twitter_ftv.politician
+                print politician
 
-                    # Insert actual Twitter account and vote into tweet
-                    tweet = tweet
+                # Insert actual Twitter account and vote into tweet
+                #twitter_ftv.tweet(tweet)
 
-                    #Tweet!
-                    #twitter_ftv.tweet(tweet)
-
-                return render_to_response('base.html', {'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
-            context_instance=RequestContext(request))
+            return render_to_response('base.html', {'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
+        context_instance=RequestContext(request))
 
         # If submitted tweet was too long
         error = 'Tweet was too long! Try again!'
