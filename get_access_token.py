@@ -105,7 +105,6 @@ def main():
 
         # Finally create the account
         try: 
-            print p_id
             twitter_ftv = Twitter_FTV.objects.create(handle=handle, politician_id=p_id)
             print 'Model successfully created'
         except:
@@ -115,11 +114,9 @@ def main():
     
     # Check for other, non-necessary fields
     if not twitter_ftv.email:
-        email = raw_input('Email address (return to bypass): ')
-        twitter_ftv.email = email
-    if not twitter_ftv.email_password:
-        email_password = raw_input('Password (return to bypass): ')
-        twitter_ftv.email_password = email_password
+        code = raw_input('Enter code (to create email address and password): ')
+        twitter_ftv.email = code + "@followthevote.org"
+        twitter_ftv.email_password = "statueofliberty" + code
     twitter_ftv.save()
 
     # OAuth
