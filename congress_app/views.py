@@ -15,6 +15,10 @@ from pprint import pprint
 import re #regular expressions
 import twitter # bear/python-twitter
 
+def admin(request):
+    return render_to_response('database.html', context_instance=RequestContext(request))
+
+
 def index(request):
     zip_code = request.GET.get('zip_code')
     address = request.GET.get('address')

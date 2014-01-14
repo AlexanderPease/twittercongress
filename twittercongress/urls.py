@@ -8,7 +8,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^', include('congress_app.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    #url(r'^admin/', include(admin.site.urls)),
 )
 
 urlpatterns += staticfiles_urlpatterns()
