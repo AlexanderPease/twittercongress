@@ -1,12 +1,29 @@
 {% extends "base.html" %}
 
 {% block body %}
-  Twitter_FTV accounts
-  <table class="table">
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Chamber</th>
+      <th>State</th>
+      <th>District/Seniority</th>
+      <th>Twitter</th>
+      <th>Twitter_FTV</th>
+      <th>Twitter_FTV Email</th>
+      <th>Twitter_FTV Password</th>
+    </tr>
+    {% for p in politicians %}
+      <tr>
+        <td>{{ p.name }}</td>
+        <td>{{ p.chamber }}</td>
+        <td>{{ p.state }}</td>
+        <td>{{ p.district }}</td>
+        <td>{{ p.twitter }}</td>
+        <td>{{ p.twitter_ftv }}</td>
+        <td>{{ p.twitter_ftv.email }}</td>
+        <td>{{ p.twitter_ftv.email_password }}</td>
+      </tr>
+    {% endfor %}
   </table>
 
 

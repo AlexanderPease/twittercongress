@@ -19,17 +19,9 @@ class Politician(models.Model):
     def __unicode__(self):
         return self.first_name + ' ' + self.last_name
 
-    def chamber(self):
-        if self.title == 'sen':
-            return 'senate'
-        elif self.title == 'rep':
-            return 'house'
-        else:
-            raise Exception
-
-    ''' Returns full state name '''
-    def full_state_name(self):
-        return constants.states.get(self.state)
+    ''' Ex. Sen. Kirsten Gillibrand '''
+    def name(self):
+        return self.title + ". " + self.first_name + " " + self.last_name
 
     ''' Returns full title '''
     def full_title(self):
@@ -41,6 +33,19 @@ class Politician(models.Model):
     ''' Ex: Rep. Gillibrand '''
     def brief_name(self):
         return self.title + ". " + self.last_name
+
+    def chamber(self):
+        if self.title == 'Sen':
+            return 'Senate'
+        elif self.title == 'Rep':
+            return 'House'
+        else:
+            print "self.title: " + self.title
+            raise Exception
+    
+    ''' Returns full state name '''
+    def full_state_name(self):
+        return constants.states.get(self.state)
 
     ''' Returns STATIC_URL path to the portrait file. Defaults to DEFAULT.jpg '''
     def portrait_path(self):
