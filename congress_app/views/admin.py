@@ -6,6 +6,14 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from congress_app.models import Politician, Twitter, Twitter_FTV, VotesForm, TweetForm
 
+#Outside imports
+import os.path
+from sunlight import congress, congress_deprecated
+from geopy import geocoders
+from pprint import pprint
+import re #regular expressions
+import twitter # bear/python-twitter
+
 def admin(request):
     return render_to_response('admin.html', context_instance=RequestContext(request))
 
@@ -103,7 +111,7 @@ def tweet(request):
                     tweet = tweet_template.replace(reps_account_placeholder, name).replace(choice_placeholder, choice)
                     twitter_ftv.tweet(tweet)
 
-            return render_to_response('base.html', {'tweet_beginning': tweet_beginning, 'vote': vote, 'form':form}, 
+            return render_to_response('admin.html', {'msg': 'All accounts tweeted successfully!'}, 
         context_instance=RequestContext(request))
     else:
         form = TweetForm()
