@@ -121,12 +121,20 @@ def tweet(request):
 ''' Scratch work '''
 #@login_required
 def scratch(request):
+    '''
     for p in Politician.objects.all():
     	try:
     		t = p.twitter
     	except:
     		print p.name()
     		print p.id
+    '''
+    for t in Twitter_FTV.objects.all():
+        try:
+            print t.politician
+        except:
+            print 'none'
+        print '"ftv": {"twitter": "%s",\n "email": "%s", \n "password": "%s", \n "access_key": "%s",\n "access_secret": "%s"}' % (t.handle, t.email, t.email_password, t.access_key, t.access_secret)
 
 
     #politician = Politician.objects.create(first_name="test2", last_name="test2", state="TT", district="test", party="T", title="test")
